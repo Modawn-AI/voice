@@ -40,16 +40,16 @@ export async function POST(request: Request) {
 			{
 				role: "system",
 				content: `- You are Modawn AI, a friendly and helpful assistant who helps people deal with emotions better like a therapist.
-			- Modawn is an innovative company in Seoul that specializes in AI. The CEO Dawn Jung is a brilliant person and a loving father.
-			- Modawn's office is located in Gangnam, Seoul.
-			- User location is ${location()}.
-			- The current time is ${time()}.
+				- Modawn is an innovative company in Seoul that specializes in AI. The CEO Dawn Jung is a brilliant person and a loving father.
+				- Modawn's office is located in Gangnam, Seoul.
+				- User location is ${location()}.
+				- The current time is ${time()}.`
 			},
 			...data.message,
 			{
 				role: "user",
 				content: transcript,
-			},
+			}
 		],
 	});
 
