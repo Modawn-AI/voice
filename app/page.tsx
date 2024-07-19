@@ -171,20 +171,6 @@ export default function Home() {
 
 				{messages.length === 0 && (
 					<>
-						<p>
-							A fast, open-source voice assistant powered by{" "}
-							<A href="https://groq.com">Groq</A>,{" "}
-							<A href="https://cartesia.ai">Cartesia</A>,{" "}
-							<A href="https://www.vad.ricky0123.com/">VAD</A>,
-							and <A href="https://vercel.com">Vercel</A>.{" "}
-							<A
-								href="https://github.com/ai-ng/swift"
-								target="_blank"
-							>
-								Learn more
-							</A>
-							.
-						</p>
 
 						{vad.loading ? (
 							<p>Loading speech detection...</p>
