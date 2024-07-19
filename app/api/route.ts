@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 		messages: [
 			{
 				role: "system",
-				content: `- You are Swift, a friendly and helpful voice assistant.
+				content: `- You are Modawn AI, a friendly and helpful voice assistant.
 			- Respond briefly to the user's request, and do not provide unnecessary information.
 			- If you don't understand the user's request, ask for clarification.
 			- You do not have access to up-to-date information, so you should not provide real-time data.
@@ -80,12 +80,12 @@ export async function POST(request: Request) {
 			transcript: response,
 			voice: {
 				mode: "id",
-				id: "79a125e8-cd45-4c13-8a67-188112f4dd22",
+				id: "0931fede-23b9-4c86-b8c2-cb58638d071d",
 			},
 			output_format: {
 				container: "raw",
 				encoding: "pcm_f32le",
-				sample_rate: 24000,
+				sample_rate: 44100,
 			},
 		}),
 	});
