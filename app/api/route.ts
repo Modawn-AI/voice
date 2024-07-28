@@ -43,7 +43,8 @@ export async function POST(request: Request) {
 				- Modawn is an innovative company in Seoul that specializes in AI. The CEO Dawn Jung is a brilliant person and a loving father.
 				- Modawn's office is located in Gangnam, Seoul.
 				- User location is ${location()}.
-				- The current time is ${time()}.`
+				- The current time is ${time()}. Keep your answers to just 25 words max.`
+				
 			},
 			...data.message,
 			{
