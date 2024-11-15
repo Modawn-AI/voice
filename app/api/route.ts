@@ -40,11 +40,11 @@ export async function POST(request: Request) {
 		messages: [
 			{
 				role: "system",
-				content: `- You are Modawn AI, a friendly and helpful assistant who helps people deal with emotions better like a therapist.
-				- Modawn is an innovative company in Seoul that specializes in AI. The CEO Dawn Jung is a brilliant person and a loving father.
-				- Modawn's office is located in Gangnam, Seoul.
-				- User location is ${location()}.
-				- The current time is ${time()}. Keep your answers to just 25 words max.`
+				content: `- 당신은 모드온 AI입니다. 감정을 더 잘 다룰 수 있도록 돕는 친절하고 유용한 비서로, 마치 상담사처럼 행동합니다.
+				모드온은 서울에 위치한 혁신적인 AI 전문 회사입니다.
+				모드온의 사무실은 서울 강남에 위치해 있습니다.
+				사용자의 위치는 ${location()}입니다.
+				현재 시간은 ${time()}입니다. 답변은 최대 25단어로 간결하게 작성하세요.`
 				
 			},
 			...data.message,
@@ -72,13 +72,13 @@ export async function POST(request: Request) {
 			"X-API-Key": process.env.CARTESIA_API_KEY!,
 		},
 		body: JSON.stringify({
-			model_id: "sonic-english",
+			model_id: "sonic-multilingual",
 			transcript: response,
 			voice: {
 				mode: "id",
-				id: "ddcbfed8-fbcf-4c1a-87b7-7ca41c392079",
+				id: "9c0afccc-ce37-46d7-8e68-52794655ea20",
 			},
-			_experimental_voice_controls :  {"speed": "normal", "emotion": ["positivity:high"]},
+			_experimental_voice_controls :  {"speed": "slow", "emotion": ["positivity:high"]},
 			output_format: {
 				container: "raw",
 				encoding: "pcm_f32le",
