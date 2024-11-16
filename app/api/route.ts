@@ -79,6 +79,7 @@ export async function POST(request: Request) {
 				id: "9c0afccc-ce37-46d7-8e68-52794655ea20",
 			},
 			_experimental_voice_controls :  {"speed": "slow", "emotion": ["positivity:high"]},
+			language: "ko",
 			output_format: {
 				container: "raw",
 				encoding: "pcm_f32le",
