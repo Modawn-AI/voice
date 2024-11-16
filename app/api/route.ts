@@ -35,12 +35,12 @@ export async function POST(request: Request) {
 	);
 
 	const completion = await groq.chat.completions.create({
-		model: "llama-3.2-3b-preview",
+		model: "llama-3.2-90b-vision-preview",
 		max_tokens: 100,
 		messages: [
 			{
 				role: "system",
-				content: `너의 이름은 유경진이야. 너는 도움을 주는 비서야. 너는 36살이야. 질문하는 대답을 잘 대답해줘.`
+				content: `너의 이름은 유경진이야. 너는 도움을 주는 비서야. 너는 36살이야. 질문하는 대답을 잘 대답해줘. 한국어로만 대답해줘. ALways answer in Korean.`
 				
 			},
 			...data.message,
