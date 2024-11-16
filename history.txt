@@ -1,0 +1,1000 @@
+  998  python3 reset.py
+  999  pip3 install pydub
+ 1000  uvicorn main:app --reload
+ 1001  gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker -b 127.0.0.1:8000
+ 1002  uvicorn main:app --reload
+ 1003  cd dearme/
+ 1004  uvicorn main:app --reload
+ 1005  cd app/celery/
+ 1006  python concurrency_tester.py
+ 1007  python3 concurrency_tester.py
+ 1008  cd dearme/
+ 1009  uvicorn main:app --reload
+ 1010  pip list
+ 1011  python3 app/api/endpoints/amit_notification.py 
+ 1012  cd app/api/endpoints/
+ 1013  python amit_notification.py 
+ 1014  python3 amit_notification.py 
+ 1015  cd ..
+ 1016  python3 app/api/endpoints/amit_notification.py 
+ 1017  python3 app/tests/test_notification.py 
+ 1018  source venv/bin/activate
+ 1019  uvicorn app.main:app --reload
+ 1020  uvicorn app.main:app 8000
+ 1021  uvicorn app.main:app 
+ 1022  gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker -b 127.0.0.1:8000
+ 1023  uvicorn main:app --port 8000
+ 1024  uvicorn main:app --port 8001
+ 1025  clear
+ 1026  uvicorn main:app --port 8001
+ 1027  clear
+ 1028  uvicorn main:app --port 8001
+ 1029  clear
+ 1030  uvicorn main:app --port 8001
+ 1031  clear
+ 1032  uvicorn main:app --port 8001
+ 1033  clear
+ 1034  uvicorn main:app --port 8001
+ 1035  clear
+ 1036  uvicorn main:app --port 8001
+ 1037  clear
+ 1038  uvicorn main:app --port 8001
+ 1039  python3 timezone_input.py
+ 1040  cd app/tests/
+ 1041  python3 test_auth.py
+ 1042  pip install hikerapi
+ 1043  cd /etc/nginx/
+ 1044  ls
+ 1045  cd sites-
+ 1046  ls
+ 1047  cd sites-enabled/
+ 1048  ls
+ 1049  sudo certbot --nginx -d app.soulna.kr
+ 1050  sudo apt install certbot python3-certbot-nginx
+ 1051  sudo certbot --nginx -d app.soulna.kr
+ 1052  sudo systemctl reload nginx
+ 1053  sudo nginx -t
+ 1054  sudo systemctl reload nginx
+ 1055  cd
+ 1056  cd modawn_voice/
+ 1057  git add .
+ 1058  git commit -m "updated llama 3.1"
+ 1059  git push origin main
+ 1060  gh auth login
+ 1061  git push origin main
+ 1062  git add .
+ 1063  git commit -m "updated llama 3.1 and prompt"
+ 1064  git push origin main
+ 1065  git add .
+ 1066  git commit -m "updated llama 3.1 and prompt"
+ 1067  git push origin main
+ 1068  git add .
+ 1069  git commit -m "updated llama 3.1 and prompt"
+ 1070  git push origin main
+ 1071  cd ..
+ 1072  cd auth-test-app/
+ 1073  npm start
+ 1074  uvicorn main:app --port 8001
+ 1075  uvicorn app.main:app --reload
+ 1076  kill uvicorn
+ 1077  killall uvicorn
+ 1078  uvicorn app.main:app --reload
+ 1079  ps aux | grep uvicorn
+ 1080  uvicorn app.main:app --reload
+ 1081  pkill uvicorn
+ 1082  uvicorn app.main:app --reload
+ 1083  uvicorn main:app --reload
+ 1084  cd
+ 1085  cd auth-test-app/
+ 1086  npm st
+ 1087  npm start
+ 1088  cd
+ 1089  cd soulna/app/core/
+ 1090  python3 calc.py 
+ 1091  cd
+ 1092  cd auth-test-app/
+ 1093  npm start
+ 1094  cd
+ 1095  cd soulna/app/core/
+ 1096  python3 calc.py
+ 1097  cd
+ 1098  cd auth-test-app/
+ 1099  npm start
+ 1100  cd
+ 1101  cd dearme/
+ 1102  uvicorn main:app --reload
+ 1103  cd app/services/
+ 1104  ls
+ 1105  cd ..
+ 1106  cd..
+ 1107  cd
+ 1108  cd auth-test-app/
+ 1109  npm start
+ 1110  cd
+ 1111  cd soulna/app/tests/
+ 1112  python3 test_content.py
+ 1113  cd /etc/nginx/
+ 1114  ls
+ 1115  cd sites-enabled/
+ 1116  ls
+ 1117  cd
+ 1118  cd soulna/app/tests/
+ 1119  python3 test_content.py
+ 1120  cd ..
+ 1121  git add .
+ 1122  git commit -m "saju"
+ 1123  git push origin main
+ 1124  gh login
+ 1125  gh auth login
+ 1126  git push origin main
+ 1127  python3 test_content.py
+ 1128  cd app/tests/
+ 1129  python3 test_content.py
+ 1130  python3 test_audio.py
+ 1131  pip install boto3
+ 1132  python3 test_audio.py
+ 1133  python3 test_content.py 
+ 1134  cd ..
+ 1135  git add .
+ 1136  git commit -m "added journal"
+ 1137  git push origin main
+ 1138  git add .
+ 1139  git commit -m "added journal user list"
+ 1140  git push origin main
+ 1141  git add .
+ 1142  git commit -m "added autobiography"
+ 1143  git push origin main
+ 1144  cd ..
+ 1145  cd auth-test-app/
+ 1146  npm star
+ 1147  npm start
+ 1148  cd 
+ 1149  cd auth-test-app/
+ 1150  npm start
+ 1151  cd app/tests/
+ 1152  python3 test_audio.py
+ 1153  ls
+ 1154  python3 test_audio.py
+ 1155  python3 test_userlist.py
+ 1156  cd ..
+ 1157  cd .
+ 1158  cd ..
+ 1159  git add .
+ 1160  git commit -m "list all made"
+ 1161  git push origin main
+ 1162  git add .
+ 1163  git commit -m "list all made and fixed the response into an array"
+ 1164  git push origin main
+ 1165  cd app/tests/
+ 1166  python3 simulate.py 
+ 1167  pip install networkx
+ 1168  python3 simulate.py 
+ 1169  pip install matplotlib
+ 1170  python3 simulate.py
+ 1171  cd ..
+ 1172  cd dearme/
+ 1173  uvicorn main:app --reload
+ 1174  uvicorn main:app --reload
+ 1175  uvicorn main:app --port 8001
+ 1176  uvicorn main:app --port 8001 --reload
+ 1177  uvicorn main:app --port 8080 --reload
+ 1178  cd app/api/endpoints/
+ 1179  python3 calculator.py
+ 1180  cd
+ 1181  cd pictures
+ 1182  ls
+ 1183  cd pictures/
+ 1184  python3 compress.py
+ 1185  pip3 install pillow
+ 1186  python3 compress.py
+ 1187  python3 reset_fcm.py
+ 1188  python3 timezone_input.py
+ 1189  python3 reset_fcm.py
+ 1190  python3 timezone_input.py
+ 1191  git add .
+ 1192  git commit -m "notification working"
+ 1193  git push origin no-e2ee
+ 1194  git add .
+ 1195  git commit -m "notification working"
+ 1196  git push origin no-e2ee
+ 1197  crontab -l
+ 1198  crontab -e
+ 1199  crontab -l
+ 1200  python3 timezone_input.py
+ 1201  git add .
+ 1202  git commit -m "notification working"
+ 1203  git push origin no-e2ee
+ 1204  git rm --cached process_uids.log
+ 1205  echo "process_uids.log" >> .gitignore
+ 1206  git commit -m "Remove large file and add to .gitignore"
+ 1207  git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch process_uids.log' --prune-empty --tag-name-filter cat -- --all
+ 1208  git push origin --force --all
+ 1209  cd ..
+ 1210  cd soulna/
+ 1211  uvicorn main:app --reload
+ 1212  uvicorn main:app --reload --port 8080
+ 1213  git remote add origin https://github.com/Modawn-AI/soulna-backend.git
+ 1214  git remote set-url origin https://github.com/Modawn-AI/soulna-backend.git
+ 1215  git remote add soulna-backend https://github.com/Modawn-AI/soulna-backend.git
+ 1216  git remote -v
+ 1217  git remote remove origin
+ 1218  git remote add origin https://github.com/Modawn-AI/soulna-backend.git
+ 1219  git branch -M main
+ 1220  git push -u origin main
+ 1221  git add .
+ 1222  git commit -m "soulna"
+ 1223  git push origin main
+ 1224  uvicorn main:app --reload --port 8080
+ 1225  cd app/api/
+ 1226  python3 insta.py
+ 1227  pip install aiofiles aiocsv hikerapi
+ 1228  python3 insta.py
+ 1229  curl -X GET https://api.hikerapi.com/a2/user?username=sun -H 'accept: application/json' -H 'x-access-key: q9cjL9a3OadgwvCUtm3hWYxox0wMrTnU'
+ 1230  python3 insta.py
+ 1231  curl -X GET https://api.hikerapi.com/a2/user?username=sun -H 'accept: application/json' -H 'x-access-key: eAG3CYqRwMrp30HDC6tY3WHZT2soHDhh'
+ 1232  python3 insta.py
+ 1233  curl -X GET https://api.hikerapi.com/a2/user?username=sun&access_key=eAG3CYqRwMrp30HDC6tY3WHZT2soHDhh -H 'accept: application/json'
+ 1234  curl -X GET https://api.hikerapi.com/a2/user?username=sun -H 'accept: application/json' -H 'x-access-key: eAG3CYqRwMrp30HDC6tY3WHZT2soHDhh'
+ 1235  curl -X GET https://api.hikerapi.com/a2/user?username=linusbbq \ -H 'accept: application/json' \ -H 'x-access-key: eAG3CYqRwMrp30HDC6tY3WHZT2soHDhh'
+ 1236  curl -X GET https://api.hikerapi.com/a2/user?username=sun -H 'accept: application/json' -H 'x-access-key: eAG3CYqRwMrp30HDC6tY3WHZT2soHDhh'
+ 1237  curl -X GET https://api.hikerapi.com/a2/user?username=linusbbq \ -H 'accept: application/json' \ -H 'x-access-key: eAG3CYqRwMrp30HDC6tY3WHZT2soHDhh'
+ 1238  curl -X GET https://api.hikerapi.com/a2/user?username=linusbbq -H 'accept: application/json' -H 'x-access-key: eAG3CYqRwMrp30HDC6tY3WHZT2soHDhh'
+ 1239  cd ..
+ 1240  uvicorn main:app --reload --port 8080
+ 1241  cd dearme/
+ 1242  uvicorn main:app --reload
+ 1243  cd ..
+ 1244  cd soulna/
+ 1245  uvicorn main:app --reload --port 8080
+ 1246  ls
+ 1247  cd dearme/
+ 1248  uvicorn main:app --reload
+ 1249  ls
+ 1250  git config --list
+ 1251  ls
+ 1252  git push origin main
+ 1253  git config user.name
+ 1254  cd ..
+ 1255  ls
+ 1256  cd soulna
+ 1257  ls
+ 1258  uvicorn main:app --reload --port 8080
+ 1259  killall uvicorn command
+ 1260  uvicorn main:app --reload --port 8080
+ 1261  cd ..
+ 1262  cd auth-test-app/
+ 1263  npm start
+ 1264  cd 
+ 1265  cd soulna/
+ 1266  cd app/tests/
+ 1267  ls
+ 1268  python3 test_content.py
+ 1269  cd 
+ 1270  cd auth-test-app/
+ 1271  npm start
+ 1272  netstat -ano | findstr :3000
+ 1273  lsof -i :3000
+ 1274  kill -9 $(lsof -ti:3000)
+ 1275  npm start
+ 1276  history
+ 1277  killall uvicorn
+ 1278  uvicorn main:app --reload --port 8080
+ 1279  kill -9 $(lsof -ti:3000)
+ 1280  uvicorn main:app --reload --port 8080
+ 1281  lsof -i :8080
+ 1282  ps aux | grep uvicorn
+ 1283  uvicorn main:app --reload --port 8080
+ 1284  kill -9 2779218
+ 1285  ps aux | grep uvicorn
+ 1286  uvicorn main:app --reload --port 8080
+ 1287  kill -9 3098540
+ 1288  kill -9 3098703
+ 1289  ps aux | grep uvicorn
+ 1290  kill -9 3098834
+ 1291  ps aux | grep uvicorn
+ 1292  kill -9 3098924
+ 1293  uvicorn main:app --reload --port 8080
+ 1294  lsof -i:8080
+ 1295  uvicorn main:app --reload --port 8080
+ 1296  netstat -ano | findstr :8000
+ 1297  pkill -f uvicorn
+ 1298  uvicorn main:app --reload --port 8080\
+ 1299  uvicorn main:app --reload --port 8080
+ 1300  sudo pfkill -f uvicorn
+ 1301  sudo pkill -f uvicorn
+ 1302  uvicorn main:app --reload --port 8080
+ 1303  pkill -9 -f uvicorn
+ 1304  uvicorn main:app --reload --port 8080
+ 1305  cd
+ 1306  cd auth-test-app/
+ 1307  npm start
+ 1308  cd 
+ 1309  cd soulna/
+ 1310  git add .
+ 1311  git commit -m "commit"
+ 1312  git push origin main
+ 1313  cd ..
+ 1314  cd auth-test-app/
+ 1315  npm start
+ 1316  killall uvicorn
+ 1317  pgrep uvicorn
+ 1318  ps aux | grep uvicorn
+ 1319  cd soulna/
+ 1320  uvicorn main:app --reload --port 8080
+ 1321  pip install aiobotocore
+ 1322  uvicorn main:app --reload --port 8080
+ 1323  pgrep uvicorn
+ 1324  cd dearme/
+ 1325  uvicorn main:app --reload
+ 1326  killall uvicorn
+ 1327  uvicorn main:app --reload --port 8080
+ 1328  killall uvicorn
+ 1329  uvicorn main:app --reload --port 8080
+ 1330  cd 
+ 1331  cd auth-test-app/
+ 1332  npm start
+ 1333  cd ..
+ 1334  cd auth-test-app/
+ 1335  npm start
+ 1336  cd 
+ 1337  cd auth-test-app/
+ 1338  npm start
+ 1339  cd
+ 1340  cd dearme/
+ 1341  uvicorn main:app --reload --port 8000
+ 1342  killall uvicorn
+ 1343  pkill -9 -f uvicorn
+ 1344  cd soulna/
+ 1345  uvicorn main:app --reload --port 8080
+ 1346  cd dearme/
+ 1347  uvicorn main:app --reload
+ 1348  cd
+ 1349  cd soulna/
+ 1350  ls
+ 1351  cd app/tests/
+ 1352  ls
+ 1353  python3 test_content.py
+ 1354  ;s
+ 1355  ls
+ 1356  python3 test_userlist.py 
+ 1357  ls
+ 1358  python3 test_content.py
+ 1359  python3 test_content.py 
+ 1360  python3 test_audio.py
+ 1361  python3 test_pic.py
+ 1362  pkill -9 -f uvicorn
+ 1363  cd soulna/
+ 1364  uvicorn main:app --reload --port 8080
+ 1365  cd dearme/
+ 1366  uvicorn main:app --reload --port 8000
+ 1367  uvicorn main:app --reload --port 8080
+ 1368  pkill -9 -f uvicorn
+ 1369  uvicorn main:app --reload --port 8080
+ 1370  cd soulna/
+ 1371  uvicorn main:app --reload --port 8080
+ 1372  ls
+ 1373  pkill -9 -f uvicorn
+ 1374  cd soulna/
+ 1375  uvicorn main:app --reload --port 8080
+ 1376  cd soulna/
+ 1377  uvicorn main:app --reload --port 8080
+ 1378  cd dearme/
+ 1379  uvicorn main:app --reload --port 8000
+ 1380  pkill -9 -f uvicorn
+ 1381  uvicorn main:app --reload --port 8080
+ 1382  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1383  pip install websockets
+ 1384  pip3 install websockets
+ 1385  pip3 install wsproto
+ 1386  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1387  pip3 install 'uvicorn[standard]'
+ 1388  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1389  cd
+ 1390  ls
+ 1391  cd modawn_voice/
+ 1392  ls
+ 1393  cd
+ 1394  cd dearme/
+ 1395  uvicorn main:app --reload --port 8000
+ 1396  gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1397  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1398  ls
+ 1399  cd /etc/ssl/mongodb/
+ 1400  ls
+ 1401  sudo cp /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/new-chain.pem.backup
+ 1402  sudo cp /etc/ssl/mongodb/mongodb-combined.pem /etc/ssl/mongodb/mongodb-combined.pem.backup
+ 1403  sudo openssl genrsa -out /etc/ssl/mongodb/mongodb-key-new.pem 2048
+ 1404  sudo openssl req -new -key /etc/ssl/mongodb/mongodb-key-new.pem -out /etc/ssl/mongodb/mongodb.csr
+ 1405  sudo certbot certonly --csr /etc/ssl/mongodb/mongodb.csr --standalone -d getdear.me
+ 1406  sudo certbot certonly --csr /etc/ssl/mongodb/mongodb.csr
+ 1407  ls
+ 1408  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1409  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1410  uvicorn main:app --reload --port 8000
+ 1411  cd ..
+ 1412  cd dearme/
+ 1413  uvicorn main:app --reload --port 8000
+ 1414  sudo openssl genrsa -out /etc/ssl/mongodb/mongodb.key 2048
+ 1415  sudo openssl req -new -key /etc/ssl/mongodb/mongodb.key -out /etc/ssl/mongodb/mongodb.csr
+ 1416  sudo certbot certonly --csr /etc/ssl/mongodb/mongodb.csr --standalone -d app.getdear.me
+ 1417  sudo bash -c 'cat /etc/ssl/mongodb/mongodb.key /etc/ssl/mongodb/0000_cert.pem > /etc/ssl/mongodb/mongodb-combined.pem'
+ 1418  sudo bash -c 'cat /etc/ssl/mongodb/0000_chain.pem /etc/ssl/certs/DST_Root_CA_X3.pem > /etc/ssl/mongodb/new-chain.pem'
+ 1419  sudo curl -o /etc/ssl/certs/DST_Root_CA_X3.pem https://letsencrypt.org/certs/isrgrootx1.pem
+ 1420  sudo bash -c 'cat /etc/ssl/mongodb/0000_chain.pem /etc/ssl/certs/DST_Root_CA_X3.pem > /etc/ssl/mongodb/new-chain.pem'
+ 1421  sudo chown mongodb:mongodb /etc/ssl/mongodb/*.pem /etc/ssl/mongodb/*.key
+ 1422  sudo chmod 600 /etc/ssl/mongodb/mongodb-combined.pem /etc/ssl/mongodb/mongodb.key
+ 1423  sudo chmod 644 /etc/ssl/mongodb/new-chain.pem
+ 1424  sudo systemctl restart mongod
+ 1425  openssl x509 -in /etc/ssl/mongodb/mongodb-combined.pem -text -noout
+ 1426  sudo nano /etc/mongod.conf
+ 1427  sudo tail -f /var/log/mongodb/mongod.log
+ 1428  sudo openssl rsa -in /etc/ssl/mongodb/mongodb-combined.pem -check
+ 1429  sudo openssl x509 -in /etc/ssl/mongodb/mongodb-combined.pem -text -noout
+ 1430  sudo openssl rsa -in /etc/ssl/mongodb/mongodb-combined.pem -out /etc/ssl/mongodb/mongodb.key
+ 1431  sudo openssl x509 -in /etc/ssl/mongodb/mongodb-combined.pem -out /etc/ssl/mongodb/mongodb.crt
+ 1432  sudo openssl x509 -noout -modulus -in /etc/ssl/mongodb/mongodb.crt | openssl md5
+ 1433  sudo openssl rsa -noout -modulus -in /etc/ssl/mongodb/mongodb.key | openssl md5
+ 1434  sudo openssl req -new -key /etc/ssl/mongodb/mongodb.key -out /etc/ssl/mongodb/mongodb.csr
+ 1435  sudo certbot certonly --csr /etc/ssl/mongodb/mongodb.csr --standalone -d app.getdear.me
+ 1436  sudo bash -c 'cat /etc/ssl/mongodb/mongodb.key /etc/ssl/mongodb/0000_cert.pem > /etc/ssl/mongodb/mongodb-combined.pem'
+ 1437  ls
+ 1438  sudo chown mongodb:mongodb /etc/ssl/mongodb/mongodb-combined.pem
+ 1439  sudo chmod 600 /etc/ssl/mongodb/mongodb-combined.pem
+ 1440  sudo systemctl restart mongod
+ 1441  sudo tail -f /var/log/mongodb/mongod.log
+ 1442  sudo openssl x509 -noout -modulus -in /etc/ssl/mongodb/mongodb.crt | openssl md5
+ 1443  sudo openssl rsa -noout -modulus -in /etc/ssl/mongodb/mongodb.key | openssl md5
+ 1444  sudo cp /etc/ssl/mongodb/0000_chain.pem /etc/ssl/mongodb/new-chain.pem
+ 1445  sudo chown mongodb:mongodb /etc/ssl/mongodb/new-chain.pem
+ 1446  sudo chmod 644 /etc/ssl/mongodb/new-chain.pem
+ 1447  sudo openssl x509 -noout -modulus -in /etc/ssl/mongodb/mongodb-combined.pem | openssl md5
+ 1448  sudo openssl rsa -noout -modulus -in /etc/ssl/mongodb/mongodb-combined.pem | openssl md5
+ 1449  uvicorn main:app --reload --port 8000
+ 1450  cd ..
+ 1451  cd dearme/
+ 1452  sudo netstat -tuln | grep :80
+ 1453  sudo lsof -i :80
+ 1454  sudo systemctl stop nginx
+ 1455  sudo head -n 1 /etc/ssl/mongodb/new-chain.pem
+ 1456  sudo head -n 1 /etc/ssl/mongodb/mongodb-combined.pem
+ 1457  ls -l /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1458  sudo chown mongodb:mongodb /etc/ssl/mongodb/mongodb-combined.pem /etc/ssl/mongodb/new-chain.pem
+ 1459  sudo chmod 600 /etc/ssl/mongodb/mongodb-combined.pem
+ 1460  sudo chmod 644 /etc/ssl/mongodb/new-chain.pem
+ 1461  sudo grep -n "BEGIN" /etc/ssl/mongodb/mongodb-combined.pem
+ 1462  sudo systemctl restart mongod
+ 1463  sudo systemctl start nginx
+ 1464  sudo systemctl status mongod
+ 1465  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1466  ls -l /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1467  sudo chown mongodb:mongodb /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1468  sudo chmod 644 /etc/ssl/mongodb/new-chain.pem
+ 1469  sudo chmod 600 /etc/ssl/mongodb/mongodb-combined.pem
+ 1470  ls -l /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1471  sudo systemctl restart mongod
+ 1472  sudo systemctl status mongod
+ 1473  ls -ld /etc/ssl/mongodb
+ 1474  sudo chmod 755 /etc/ssl/mongodb
+ 1475  ls -l /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1476  sudo -u mongodb cat /etc/ssl/mongodb/new-chain.pem
+ 1477  sudo -u mongodb cat /etc/ssl/mongodb/mongodb-combined.pem
+ 1478  getenforce
+ 1479  ps aux | grep mongod
+ 1480  sudo systemctl restart mongod
+ 1481  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1482  cd /etc/ssl/mongodb
+ 1483  ls
+ 1484  ps aux | grep mongod
+ 1485  ls -ld /var/lib/mongodb
+ 1486  ls -ld /etc/ssl/mongodb
+ 1487  sudo chown -R mongodb:mongodb /etc/ssl/mongodb
+ 1488  sudo chmod 700 /etc/ssl/mongodb
+ 1489  sudo chmod 600 /etc/ssl/mongodb/*
+ 1490  sudo -u mongodb cat /etc/ssl/mongodb/new-chain.pem
+ 1491  sudo grep -A 10 "net:" /etc/mongod.conf
+ 1492  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1493  ls
+ 1494  sudo chown mongodb:mongodb /etc/ssl/mongodb
+ 1495  sudo chmod 755 /etc/ssl/mongodb
+ 1496  ls
+ 1497  sudo mv /etc/ssl/mongodb/mongodb-combined.pem /etc/ssl/mongodb/mongodb-combined.pem.old
+ 1498  sudo cat /etc/ssl/mongodb/mongodb-key.pem /etc/ssl/mongodb/mongodb-cert.pem | sudo tee /etc/ssl/mongodb/mongodb-combined.pem > /dev/null
+ 1499  ls
+ 1500  sudo chown mongodb:mongodb /etc/ssl/mongodb/mongodb-combined.pem
+ 1501  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1502  sudo openssl req -new -key /etc/ssl/mongodb/mongodb-key.pem -out /etc/ssl/mongodb/mongodb.csr
+ 1503  sudo certbot certonly --csr /etc/ssl/mongodb/mongodb.csr --standalone -d app.getdear.me
+ 1504  sudo cat /etc/ssl/mongodb/mongodb-key.pem /path/to/new/certificate.pem | sudo tee /etc/ssl/mongodb/mongodb-combined.pem > /dev/null
+ 1505  sudo cat /etc/ssl/mongodb/mongodb-key.pem /etc/ssl/mongodb/0000_cert.pem | sudo tee /etc/ssl/mongodb/mongodb-combined.pem > /dev/null
+ 1506  sudo chown mongodb:mongodb /etc/ssl/mongodb/mongodb-combined.pem
+ 1507  sudo chmod 600 /etc/ssl/mongodb/mongodb-combined.pem
+ 1508  sudo cp /etc/ssl/mongodb/0000_chain.pem /etc/ssl/mongodb/new-chain.pem
+ 1509  sudo chown mongodb:mongodb /etc/ssl/mongodb/new-chain.pem
+ 1510  sudo chmod 644 /etc/ssl/mongodb/new-chain.pem
+ 1511  sudo systemctl restart mongod
+ 1512  sudo systemctl status mongod
+ 1513  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1514  yFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1515  {"t":{"$date":"2024-09-22T10:10:24.705Z"},"s":"E",  "c":"NETWORK",  "id":23248,   "ctx":"main","msg":"Cannot read certificate file","attr":{"keyFile":"/etc/ssl/mongodb/mongodb-combined.pem","error":"error:0200100D:system library:fopen:Permission denied"}}
+ 1516  Failed global initialization: InvalidSSLConfiguration Can not set up PEM key file.
+ 1517  sudo chown mongodb:mongodb /etc/ssl/mongodb/mongodb-combined.pem /etc/ssl/mongodb/new-chain.pem
+ 1518  sudo chmod 600 /etc/ssl/mongodb/mongodb-combined.pem
+ 1519  sudo chmod 644 /etc/ssl/mongodb/new-chain.pem
+ 1520  sudo chown mongodb:mongodb /etc/ssl/mongodb
+ 1521  sudo chmod 755 /etc/ssl/mongodb
+ 1522  ls
+ 1523  sudo -u mongodb cat /etc/ssl/mongodb/mongodb-combined.pem > /dev/null
+ 1524  sudo -u mongodb cat /etc/ssl/mongodb/new-chain.pem > /dev/null
+ 1525  sudo systemctl restart mongod
+ 1526  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1527  sudo tail -n 100 /var/log/mongodb/mongod.log
+ 1528  sudo openssl x509 -in /etc/ssl/mongodb/mongodb-combined.pem -text -noout | grep "Not After"
+ 1529  sudo openssl x509 -in /etc/ssl/mongodb/new-chain.pem -text -noout | grep "Not After"
+ 1530  sudo grep -A 10 "net:" /etc/mongod.conf
+ 1531  net:
+ 1532  processManagement:
+ 1533  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017 --verbose
+ 1534  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host localhost --port 27017 --verbose
+ 1535  sudo usermod -a -G mongodb ubuntu
+ 1536  sudo chmod 640 /etc/ssl/mongodb/mongodb-combined.pem
+ 1537  sudo chmod 644 /etc/ssl/mongodb/new-chain.pem
+ 1538  sudo chown mongodb:mongodb /etc/ssl/mongodb/mongodb-combined.pem /etc/ssl/mongodb/new-chain.pem
+ 1539  newgrp mongodb
+ 1540  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017 --verbose
+ 1541  sudo -u mongodb cat /etc/ssl/mongodb/mongodb-combined.pem > /dev/null
+ 1542  sudo -u mongodb cat /etc/ssl/mongodb/new-chain.pem > /dev/null
+ 1543  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017 --verbose
+ 1544  sudo openssl x509 -in /etc/ssl/mongodb/new-chain.pem -text -noout | grep "Issuer:"
+ 1545  sudo openssl x509 -in /etc/ssl/mongodb/mongodb-combined.pem -text -noout | grep "Issuer:"
+ 1546  sudo cat /etc/ssl/mongodb/mongodb-combined.pem /etc/ssl/certs/ca-certificates.crt | sudo tee /etc/ssl/mongodb/full-chain.pem > /dev/null
+ 1547  sudo sed -i 's|CAFile: /etc/ssl/mongodb/new-chain.pem|CAFile: /etc/ssl/mongodb/full-chain.pem|' /etc/mongod.conf
+ 1548  sudo systemctl restart mongod
+ 1549  mongo --tls --tlsCAFile /etc/ssl/mongodb/full-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017 --verbose
+ 1550  s
+ 1551  mongo --tls --tlsAllowInvalidCertificates --host app.getdear.me --port 27017 --verbose
+ 1552  openssl verify -CAfile /etc/ssl/mongodb/full-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1553  openssl x509 -in /etc/ssl/mongodb/mongodb-combined.pem -text -noout
+ 1554  openssl crl2pkcs7 -nocrl -certfile /etc/ssl/mongodb/full-chain.pem | openssl pkcs7 -print_certs -text -noout
+ 1555  sudo curl -o /etc/ssl/certs/lets-encrypt-r3.pem https://letsencrypt.org/certs/lets-encrypt-r3.pem
+ 1556  sudo bash -c 'cat /etc/ssl/mongodb/mongodb-combined.pem /etc/ssl/certs/lets-encrypt-r3.pem /etc/ssl/certs/isrgrootx1.pem > /etc/ssl/mongodb/new-full-chain.pem'
+ 1557  openssl verify -CAfile /etc/ssl/mongodb/new-full-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1558  ls
+ 1559  sudo mkdir /etc/ssl/mongodb/backup
+ 1560  sudo mv /etc/ssl/mongodb/*.pem /etc/ssl/mongodb/backup/
+ 1561  ls
+ 1562  vLiSKzqk5foosvivK8fkOJDZ2rw3/qz0sYC78dd9xcBgC6dNXJANd3NnT0PhwBlS
+ 1563  sudo openssl genrsa -out /etc/ssl/mongodb/mongodb.key 2048
+ 1564  sudo openssl req -new -key /etc/ssl/mongodb/mongodb.key -out /etc/ssl/mongodb/mongodb.csr
+ 1565  sudo certbot certonly --csr /etc/ssl/mongodb/mongodb.csr --standalone -d app.getdear.me
+ 1566  sudo cat /etc/ssl/mongodb/mongodb.key /etc/ssl/live/app.getdear.me/cert.pem | sudo tee /etc/ssl/mongodb/mongodb-combined.pem > /dev/null
+ 1567  ls
+ 1568  sudo cat /etc/ssl/mongodb/mongodb.key /etc/ssl/mongodb/0000_cert.pem | sudo tee /etc/ssl/mongodb/mongodb-combined.pem > /dev/null
+ 1569  sudo cp /etc/ssl/mongodb/0000_chain.pem /etc/ssl/mongodb/new-chain.pem
+ 1570  sudo chown mongodb:mongodb /etc/ssl/mongodb/*.pem
+ 1571  sudo chmod 600 /etc/ssl/mongodb/mongodb-combined.pem
+ 1572  sudo chmod 644 /etc/ssl/mongodb/new-chain.pem
+ 1573  sudo sed -i 's|certificateKeyFile:.*|certificateKeyFile: /etc/ssl/mongodb/mongodb-combined.pem|' /etc/mongod.conf
+ 1574  sudo sed -i 's|CAFile:.*|CAFile: /etc/ssl/mongodb/new-chain.pem|' /etc/mongod.conf
+ 1575  sudo systemctl restart mongod
+ 1576  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017 --verbose
+ 1577  openssl verify -CAfile /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1578  ls
+ 1579  cd backup/
+ 1580  ls
+ 1581  [200~ls -l /etc/ssl/mongodb/mongodb-combined.pem~
+ 1582  ls -l /etc/ssl/mongodb/mongodb-combined.pem
+ 1583  sudo chmod 644 /etc/ssl/mongodb/mongodb-combined.pem
+ 1584  sudo chown mongodb:mongodb /etc/ssl/mongodb/mongodb-combined.pem
+ 1585  openssl verify -CAfile /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1586  sudo systemctl restart mongod
+ 1587  cd ..
+ 1588  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1589  cat /etc/ssl/mongodb/new-chain.pem
+ 1590  openssl verify -CAfile /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1591  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1592  openssl x509 -in /etc/ssl/mongodb/mongodb-combined.pem -text -noout
+ 1593  mongo --tls --tlsAllowInvalidCertificates --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1594  wget https://letsencrypt.org/certs/lets-encrypt-r11.pem -O lets-encrypt-r11.pem
+ 1595  sudo wget https://letsencrypt.org/certs/lets-encrypt-r11.pem -O lets-encrypt-r11.pem
+ 1596  cat lets-encrypt-r11.pem >> /etc/ssl/mongodb/new-chain.pem~\
+ 1597  cat lets-encrypt-r11.pem >> /etc/ssl/mongodb/new-chain.pem
+ 1598  sudo cat lets-encrypt-r11.pem >> /etc/ssl/mongodb/new-chain.pem
+ 1599  sudo cat lets-encrypt-r11.pem | sudo tee -a /etc/ssl/mongodb/new-chain.pem > /dev/null
+ 1600  openssl verify -CAfile /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1601  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1602  openssl x509 -in /etc/ssl/mongodb/new-chain.pem -text -noout
+ 1603  wget https://letsencrypt.org/certs/lets-encrypt-r3.pem -O lets-encrypt-r3.pem
+ 1604  sudo wget https://letsencrypt.org/certs/lets-encrypt-r3.pem -O /etc/ssl/mongodb/lets-encrypt-r3.pem
+ 1605  sudo cat /etc/ssl/mongodb/lets-encrypt-r3.pem | sudo tee -a /etc/ssl/mongodb/new-chain.pem > /dev/null
+ 1606  openssl verify -CAfile /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1607  mongo --tls --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1608  ls
+ 1609  openssl verify -CAfile /etc/ssl/mongodb/new-chain.pem /etc/ssl/mongodb/mongodb-combined.pem
+ 1610  sudo nano /etc/ssl/mongodb/new-chain.pem
+ 1611  nLRbwHOoq7hHwg==
+ 1612  sudo update-ca-certificates
+ 1613  mongo --tls --tlsAllowInvalidCertificates --tlsCAFile /etc/ssl/mongodb/new-chain.pem --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb-combined.pem --host app.getdear.me --port 27017
+ 1614  sudo tail -f /var/log/mongodb/mongod.log
+ 1615  ping app.getdear.me
+ 1616  mongo --host app.getdear.me --port 27017
+ 1617  cd ..
+ 1618  chmod 777 -R mongodb/
+ 1619  sudo chmod 777 -R mongodb/
+ 1620  cd mongodb/
+ 1621  sudo bash -c 'cat /etc/ssl/mongodb/0000_chain.pem /etc/ssl/certs/DST_Root_CA_X3.pem > /etc/ssl/mongodb/new-chain.pem'
+ 1622  sudo openssl genrsa -out /etc/ssl/mongodb/mongodb_new.key 2048
+ 1623  sudo openssl req -new -key /etc/ssl/mongodb/mongodb_new.key -out /etc/ssl/mongodb/mongodb_new.csr
+ 1624  sudo certbot certonly --csr /etc/ssl/mongodb/mongodb_new.csr --standalone -d app.getdear.me
+ 1625  sudo bash -c 'cat /etc/ssl/mongodb/mongodb_new.key /etc/ssl/mongodb/0000_cert.pem > /etc/ssl/mongodb/mongodb_new_combined.pem'
+ 1626  sudo chown mongodb:mongodb /etc/ssl/mongodb/mongodb_new_combined.pem
+ 1627  sudo chmod 600 /etc/ssl/mongodb/mongodb_new_combined.pem
+ 1628  sudo cp /etc/ssl/mongodb/0000_chain.pem /etc/ssl/mongodb/new_chain.pem
+ 1629  sudo chown mongodb:mongodb /etc/ssl/mongodb/new_chain.pem
+ 1630  sudo chmod 644 /etc/ssl/mongodb/new_chain.pem
+ 1631  sudo openssl x509 -noout -modulus -in /etc/ssl/mongodb/mongodb_new_combined.pem | openssl md5
+ 1632  sudo openssl rsa -noout -modulus -in /etc/ssl/mongodb/mongodb_new_combined.pem | openssl md5
+ 1633  sudo openssl genrsa -out /etc/ssl/mongodb/mongodb_newest.key 2048
+ 1634  sudo openssl req -new -key /etc/ssl/mongodb/mongodb_newest.key -out /etc/ssl/mongodb/mongodb_newest.csr -subj "/CN=app.getdear.me"\
+ 1635  sudo openssl req -new -key /etc/ssl/mongodb/mongodb_newest.key -out /etc/ssl/mongodb/mongodb_newest.csr -subj "/CN=app.getdear.me"
+ 1636  sudo systemctl stop nginx  #
+ 1637  sudo systemctl stop nginx
+ 1638  sudo certbot certonly --standalone -d app.getdear.me
+ 1639  sudo bash -c 'cat /etc/ssl/mongodb/mongodb_newest.key /etc/letsencrypt/live/app.getdear.me/fullchain.pem > /etc/ssl/mongodb/mongodb_newest_combined.pem'
+ 1640  sudo openssl x509 -noout -modulus -in /etc/ssl/mongodb/mongodb_newest_combined.pem | openssl md5
+ 1641  sudo openssl rsa -noout -modulus -in /etc/ssl/mongodb/mongodb_newest_combined.pem | openssl md5
+ 1642  ls
+ 1643  openssl genrsa -out mongodb.key 2048
+ 1644  sudo openssl genrsa -out mongodb.key 2048
+ 1645  sudo certbot certonly --manual --csr mongodb.csr
+ 1646  cat mongodb.key signed_cert.pem > mongodb-combined.pem
+ 1647  sudo cat mongodb.key signed_cert.pem > mongodb-combined.pem
+ 1648  ls
+ 1649  openssl x509 -in mongodb-combined.pem -text -noout
+ 1650  cat mongodb.key mongodb.crt > mongodb-combined.pem
+ 1651  sudo cat mongodb.key mongodb.crt > mongodb-combined.pem
+ 1652  openssl x509 -in mongodb-combined.pem -text -noout
+ 1653  cat lets-encrypt-r3.pem lets-encrypt-r11.pem > new-chain.pem
+ 1654  openssl verify -CAfile new-chain.pem mongodb-combined.pem
+ 1655  openssl x509 -in lets-encrypt-r3.pem -text -noout
+ 1656  openssl x509 -in lets-encrypt-r11.pem -text -noout
+ 1657  wget https://letsencrypt.org/certs/lets-encrypt-r3.pem -O lets-encrypt-r3.pem
+ 1658  wget https://letsencrypt.org/certs/isrgrootx1.pem -O isrgrootx1.pem
+ 1659  sudo cat lets-encrypt-r3.pem isrgrootx1.pem > new-chain.pem
+ 1660  openssl verify -CAfile new-chain.pem mongodb-combined.pem
+ 1661  cat lets-encrypt-r3.pem isrgrootx1.pem > full-chain.pem
+ 1662  sudo cat lets-encrypt-r3.pem isrgrootx1.pem > full-chain.pem
+ 1663  openssl verify -CAfile full-chain.pem mongodb-combined.pem
+ 1664  cat mongodb.key mongodb.crt > mongodb-combined.pem
+ 1665  sudo cat mongodb.key mongodb.crt > mongodb-combined.pem
+ 1666  sudo cat lets-encrypt-r3.pem isrgrootx1.pem > full-chain.pem
+ 1667  openssl verify -CAfile full-chain.pem mongodb-combined.pem
+ 1668  cat mongodb.crt lets-encrypt-r3.pem isrgrootx1.pem > full-chain.pem
+ 1669  cat mongodb.key full-chain.pem > mongodb-combined.pem
+ 1670  sudo cat mongodb.key full-chain.pem > mongodb-combined.pem
+ 1671  openssl verify -CAfile full-chain.pem mongodb-combined.pem
+ 1672  sudo nano /etc/mongod.conf
+ 1673  sudo systemctl restart mongod
+ 1674  mongo --host app.getdear.me --port 27017
+ 1675  systemctl restart nginx
+ 1676  sudo systemctl restart nginx
+ 1677  sudo systemctl status mongod
+ 1678  /etc/mongod.conf
+ 1679  sudo systemctl restart mongod
+ 1680  mongo --host 127.0.0.1 --port 27017
+ 1681  sudo ufw allow 27017/tcp
+ 1682  sudo tail -f /var/log/mongodb/mongod.log
+ 1683  sudo systemctl restart mongod
+ 1684  cd /etc/nginx/
+ 1685  cd /etc/ssl/mongodb
+ 1686  sudo systemctl restart mongod
+ 1687  sudo tail -f /var/log/mongodb/mongod.log
+ 1688  pkill -9 -f gunicorn
+ 1689  gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1690  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1691  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1692  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1693  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1694  uvicorn main:app --reload --port 8080
+ 1695  service stop nginx
+ 1696  systemctl stop nginx
+ 1697  sudo systemctl restart nginx
+ 1698  sudo systemctl start nginx
+ 1699  sudo lsof -i :80
+ 1700  uvicorn main:app --reload --port 8080
+ 1701  sudo apt update
+ 1702  sudo apt install certbot
+ 1703  sudo systemctl stop mongod
+ 1704  sudo openssl genrsa -out /etc/ssl/mongodb/mongodb-key-new.pem 2048
+ 1705  sudo openssl req -new -key /etc/ssl/mongodb/mongodb-key-new.pem -out /etc/ssl/mongodb/mongodb.csr
+ 1706  sudo certbot certonly --csr /etc/ssl/mongodb/mongodb.csr --standalone -d app.getdear.me
+ 1707  sudo cat /etc/ssl/mongodb/mongodb-key-new.pem /home/ubuntu/soulna/0000_cert.pem | sudo tee /etc/ssl/mongodb/mongodb-combined.pem > /dev/null
+ 1708  sudo cp /home/ubuntu/soulna/0000_chain.pem /etc/ssl/mongodb/new-chain.pem
+ 1709  sudo chmod 600 /etc/ssl/mongodb/mongodb-combined.pem
+ 1710  sudo chmod 644 /etc/ssl/mongodb/new-chain.pem
+ 1711  uvicorn main:app --reload --port 8080
+ 1712  cd dearme/
+ 1713  uvicorn main:app --reload --port 8000
+ 1714  pip3 instlal aioboto3
+ 1715  pip3 install aioboto3
+ 1716  ls
+ 1717  cd dearme/
+ 1718  uvicorn main:app --reload --port 8000
+ 1719  pip3 install motor
+ 1720  pip3 install aiologger
+ 1721  uvicorn main:app --host 0.0.0.0 --port 8000 --workers 2
+ 1722  uvicorn main:app --host 0.0.0.0 --port 8000
+ 1723  uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
+ 1724  uvicorn main:app --host 0.0.0.0 --port 8000 --workers 1
+ 1725  uvicorn main:app --reload --port 8000
+ 1726  uvicorn main:app --host 0.0.0.0 --port 8000 --workers 2
+ 1727  uvicorn main:app --host 0.0.0.0 --port 8000
+ 1728  uvicorn main:app --host 0.0.0.0 --port 8000 --workers 2
+ 1729  uvicorn main:app --reload --port 8000
+ 1730  gunicorn -w 2 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000
+ 1731  uvicorn main:app --reload --port 8000
+ 1732  cd dearme/
+ 1733  uvicorn main:app --reload --port 8000
+ 1734  ㅣㄴ
+ 1735  cd dearme/
+ 1736  uvicorn main:app --reload --port 8000
+ 1737  cd dearme/
+ 1738  gunicorn -w 2 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000
+ 1739  cd ..
+ 1740  cd soulna/
+ 1741  uvicorn main:app --reload --port 8080
+ 1742  cd dearme/
+ 1743  uvicorn main:app --reload --port 8000
+ 1744  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1745  cd soulna/
+ 1746  ls
+ 1747  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1748  ㅣㄴ
+ 1749  ls
+ 1750  pkill -9 gunicorn
+ 1751  cd soulna/
+ 1752  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1753  cd ..
+ 1754  uvicorn main:app --reload --port 8000
+ 1755  cd ..
+ 1756  cd dearme/
+ 1757  cd app/celery/
+ 1758  python3 test_seoul_timezone.py 
+ 1759  python3 process_uids.py
+ 1760  python3 test_seoul_timezone.py
+ 1761  pkill -9 gunicorn
+ 1762  ㅊㅇ
+ 1763  cd sou
+ 1764  cd 
+ 1765  cd soulna/
+ 1766  ls
+ 1767  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1768  cd dearme/
+ 1769  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1770  cd app/
+ 1771  ls
+ 1772  cd tests/
+ 1773  ls
+ 1774  cd ..
+ 1775  python3 test_seoul_timezone.py
+ 1776  python3 process_uids.py
+ 1777  python script_name.py --run-now
+ 1778  python3 script_name.py --run-now
+ 1779  python3 process_uids.py --run-now
+ 1780  ls
+ 1781  pkill -9 gunicorn
+ 1782  cd soulna/
+ 1783  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1784  cd ..
+ 1785  cd dearme/
+ 1786  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1787  cd ..
+ 1788  git clone https://github.com/openai/openai-realtime-console
+ 1789  cd openai-realtime-console/
+ 1790  npm i
+ 1791  npm start
+ 1792  npm install -g npm@10.9.0
+ 1793  nvm use 18
+ 1794  npm install -g npm@10.9.0
+ 1795  npm start
+ 1796  cd app/celery/
+ 1797  ls
+ 1798  python3 test_seoul_timezone.py
+ 1799  ls
+ 1800  python3 process_uids.py --
+ 1801  python3 process_uids.py --run-now
+ 1802  ㅣㄴ
+ 1803  ls
+ 1804  python3 process_uids.py --run-now
+ 1805  pkill -9 gunicorn
+ 1806  cd .
+ 1807  cd ..
+ 1808  cd dearme/
+ 1809  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1810  cd app/celery/
+ 1811  python3 process_uids.py
+ 1812  python3 process_uids.py --run-now
+ 1813  ls
+ 1814  cd dearme/
+ 1815  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1816  pkill -9 gunicorn
+ 1817  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1818  gunicorn main:app -w 3 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1819  pkill -9 gunicorn
+ 1820  gunicorn main:app -w 3 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1821  ㅣㄴ
+ 1822  ls
+ 1823  cd app/celery/
+ 1824  ls
+ 1825  cd dearme/
+ 1826  pkill -9 gunicorn
+ 1827  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1828  uvicorn main:app --reload --port 8000
+ 1829  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1830  pkill -9 gunicorn
+ 1831  cd dearme/
+ 1832  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1833  ls
+ 1834  ps -ef | grep dear
+ 1835  ps -ef | grep gunicorn
+ 1836  cd dearme/
+ 1837  ls
+ 1838  ps -ef | grep gunicorn
+ 1839  ps -ef | grep uvicorn
+ 1840  ps -e
+ 1841  ps -ef | grep gunicorn
+ 1842  pkill -9 gunicorn
+ 1843  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1844  ㅣㄴ
+ 1845  ls
+ 1846  cd dearme/
+ 1847  ls
+ 1848  pkill -9 gunicorn
+ 1849  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1850  git fetch origin
+ 1851  git checkout -b async
+ 1852  git push -u origin async
+ 1853  git push
+ 1854  git add .
+ 1855  git commit -m "async"
+ 1856  git push origin async
+ 1857  git checkout no-e2ee
+ 1858  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1859  git checkout async
+ 1860  git stash
+ 1861  git checkout async
+ 1862  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1863  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 300
+ 1864  git add .
+ 1865  git commit -m "gunicorn timeout to 300"
+ 1866  git push origin no-e2ee
+ 1867  git push origin async
+ 1868  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 300
+ 1869  cd dearme/
+ 1870  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 300
+ 1871  pkill -9 gunicorn
+ 1872  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500
+ 1873  crontab -l
+ 1874  cd app/celery/
+ 1875  python3 process_uids.py 
+ 1876  python3 process_uids.py --run-now
+ 1877  python3 process_uids.py --simulate-next-minute
+ 1878  cd dearme/
+ 1879  ls
+ 1880  pkill -9 gunicorn
+ 1881  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500
+ 1882  uvicorn main:app --reload --port 8000
+ 1883  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500
+ 1884  gunicorn main:app -w 3 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500
+ 1885  cd dearme/
+ 1886  pkill -9 gunicorn
+ 1887  gunicorn main:app -w 3 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500
+ 1888  gunicorn main:app   -w 4   -k uvicorn.workers.UvicornWorker   --bind 0.0.0.0:8000   --reload   --timeout 500   --max-requests 1000   --max-requests-jitter 50   --graceful-timeout 30   --keep-alive 5   --access-logfile -   --error-logfile /path/to/error.log
+ 1889  gunicorn main:app   -w 4   -k uvicorn.workers.UvicornWorker   --bind 0.0.0.0:8000   --reload   --timeout 500   --max-requests 1000   --max-requests-jitter 50   --graceful-timeout 30   --keep-alive 5   --access-logfile -   --error-logfile error.log
+ 1890  cd app/celery/
+ 1891  python3 generate_audio.py
+ 1892  python3 process_uids.py 
+ 1893  python3 process_uids.py --run-now
+ 1894  cd dearme/
+ 1895  pkill -9 gunicorn
+ 1896  gunicorn main:app   -w 4   -k uvicorn.workers.UvicornWorker   --bind 0.0.0.0:8000   --reload   --timeout 500   --max-requests 1000   --max-requests-jitter 50   --graceful-timeout 30   --keep-alive 5   --access-logfile -   --error-logfile error.log
+ 1897  uvicorn main:app --reload --port 8000
+ 1898  gunicorn main:app   -w 4   -k uvicorn.workers.UvicornWorker   --bind 0.0.0.0:8000   --reload   --timeout 500   --max-requests 1000   --max-requests-jitter 50   --graceful-timeout 30   --keep-alive 5   --access-logfile -   --error-logfile error.log
+ 1899  ls
+ 1900  cd dearme/
+ 1901  pkill -9 gunicorn
+ 1902  gunicorn main:app   -w 4   -k uvicorn.workers.UvicornWorker   --bind 0.0.0.0:8000   --reload   --timeout 500   --max-requests 1000   --max-requests-jitter 50   --graceful-timeout 30   --keep-alive 5   --access-logfile -   --error-logfile error.log
+ 1903  d ..
+ 1904  cd ..
+ 1905  cd soulna/
+ 1906  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1907  cd dearme/
+ 1908  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1909  pkill -9 gunicorn
+ 1910  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload
+ 1911  pip3 install redis
+ 1912  sudo pip3 install redis
+ 1913  sudo pip3 install airedis
+ 1914  sudo pip3 install aioredis
+ 1915  redis-cli ping
+ 1916  sudo apt install redis-tools
+ 1917  redis-cli ping
+ 1918  sudo apt install redis-server
+ 1919  sudo systemctl start redis-server
+ 1920  sudo systemctl status redis-server
+ 1921  redis-cli ping
+ 1922  git add .
+ 1923  git commit -m "notification/async"
+ 1924  git push origin no-e2ee
+ 1925  git branch
+ 1926  git push origin async
+ 1927  git add .
+ 1928  git commit -m "notification/async"
+ 1929  git push origin async
+ 1930  ls
+ 1931  cd dearme/
+ 1932  pkill -9 gunicorn
+ 1933  history
+ 1934  gunicorn main:app   -w 4   -k uvicorn.workers.UvicornWorker   --bind 0.0.0.0:8000   --reload   --timeout 500   --max-requests 1000   --max-requests-jitter 50   --graceful-timeout 30   --keep-alive 5   --access-logfile -   --error-logfile error.log
+ 1935  WORKER_ID=1 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+ 1936  WORKER_ID=1 gunicorn main:app   -w 4   -k uvicorn.workers.UvicornWorker   --bind 0.0.0.0:8000   --reload   --timeout 500   --max-requests 1000   --max-requests-jitter 50   --graceful-timeout 30   --keep-alive 5   --access-logfile -   --error-logfile error.log
+ 1937  WORKER_ID=1 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1938  LS
+ 1939  ls
+ 1940  cd soulna/
+ 1941  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload
+ 1942  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1943  LS
+ 1944  ls
+ 1945  cd ..
+ 1946  cd soulna/
+ 1947  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1948  pkill -9 gunicorn
+ 1949  cd dearme/
+ 1950  WORKER_ID=1 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1951  cd ..
+ 1952  cd soulna/
+ 1953  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1954  ls
+ 1955  pkill -9 gunicorn
+ 1956  cd dearme/
+ 1957  WORKER_ID=1 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1958  cd ..
+ 1959  cd soulna/
+ 1960  gunicorn main:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1961  ㅣㄴ
+ 1962  ls
+ 1963  pkill -9 gunicorn
+ 1964  cd dearme/
+ 1965  WORKER_ID=1 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1966  cd ..
+ 1967  cd soulna/
+ 1968  WORKER_ID=1 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1969  pkill -9 gunicorn
+ 1970  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1971  ls
+ 1972  ls
+ 1973  pkill -9 gunicorn
+ 1974  cd dearme/
+ 1975  WORKER_ID=1 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1976  WORKER_ID=1 gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1977  cd ..
+ 1978  cd soulna/
+ 1979  ls
+ 1980  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1981  pkill -9 gunicorn
+ 1982  cd dearme/
+ 1983  WORKER_ID=1 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1984  cd ..
+ 1985  cd soulna/
+ 1986  gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1987  pkill -9 gunicorn
+ 1988  cd dearme/
+ 1989  WORKER_ID=1 gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --reload --timeout 500 --max-requests 1000 --max-requests-jitter 50 --graceful-timeout 30 --keep-alive 5 --access-logfile - --error-logfile error.log
+ 1990  pkill -9 gunicorn
+ 1991  cd ..
+ 1992  cd modawn_voice/
+ 1993  git add .
+ 1994  git commit -m "asdf"
+ 1995  git push origin main
+ 1996  history
+ 1997  history > history.txt
