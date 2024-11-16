@@ -35,8 +35,8 @@ export async function POST(request: Request) {
 	);
 
 	const completion = await groq.chat.completions.create({
-		model: "llama-3.1-8b-instant",
-		max_tokens: 50,
+		model: "llama-3.2-3b-preview",
+		max_tokens: 100,
 		messages: [
 			{
 				role: "system",
