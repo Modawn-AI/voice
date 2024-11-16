@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
 	const completion = await groq.chat.completions.create({
 		model: "llama-3.2-90b-vision-preview",
-		max_tokens: 500,
+		max_tokens: 200,
 		messages: [
 			{
 				role: "system",
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
 				   - 솔나는 정신 건강 및 자기 성찰에 도움을 주며, 사용자의 삶을 더 풍요롭게 만듭니다.  
 				   - 궁금한 점이나 특정 기능에 대해 질문하면 이에 대해 상세히 답변하세요.
 				
-				사용자가 어떤 질문을 하든 이 정보를 기반으로 적절히 응답하며 솔나의 강점과 가치를 최대한 잘 전달하세요. 짧고 간략하게 전달해주세요.`
+				사용자가 어떤 질문을 하든 이 정보를 기반으로 적절히 응답하며 솔나의 강점과 가치를 최대한 잘 전달하세요. 짧고 간략하게 전달해주세요. 영어 단어는 쓰지마. 한국어만 사용해.`
 				
 			},
 			...data.message,
