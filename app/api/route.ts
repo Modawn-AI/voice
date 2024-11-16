@@ -102,9 +102,9 @@ export async function POST(request: Request) {
 			_experimental_voice_controls :  {"speed": "slowest", "emotion": ["positivity:high"]},
 			language: "ko",
 			output_format: {
-				container: "mp3",
-				encoding: "128000",
-				sample_rate: 44100,
+				container: "raw",
+				encoding: "pcm_f32le",
+				sample_rate: 24000,
 			},
 		}),
 	});
