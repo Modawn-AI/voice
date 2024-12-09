@@ -65,7 +65,7 @@ export async function POST(request: Request) {
 		"cartesia request " + request.headers.get("x-vercel-id") || "local"
 	);
 
-	const voice = await fetch("https://api.cartesia.ai/tts/bytes", {
+	const voice = await fetch("https://api.cartesia.ai/tts/sse", {
 		method: "POST",
 		headers: {
 			"Cartesia-Version": "2024-06-30",
@@ -78,8 +78,6 @@ export async function POST(request: Request) {
 			voice: {
 				mode: "id",
 				id: "9c0afccc-ce37-46d7-8e68-52794655ea20",
-				//id: "bedb7ab7-8f8d-42e6-af3c-7ceae33d0d20",
-	
 			},
 			_experimental_voice_controls :  {"speed": "slowest", "emotion": ["positivity:high"]},
 			language: "ko",
@@ -109,10 +107,10 @@ export async function POST(request: Request) {
 
 	return new Response(voice.body, {
 		headers: {
-		  "X-Transcript": encodeURIComponent(transcript || ""),
-		  "X-Response": encodeURIComponent(response || ""),
+			"X-Transcript": encodeURIComponent(transcript || ""),
+			"X-Response": encodeURIComponent(response || ""),
 		},
-	  });
+	});
 }
 
 function location() {

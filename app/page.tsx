@@ -105,10 +105,40 @@ export default function Home() {
 		}
 
 		const latency = Date.now() - submittedAt;
-		player.play(response.body, () => {
-			const isFirefox = navigator.userAgent.includes("Firefox");
-			if (isFirefox) vad.start();
-		});
+		const reader = response.body.getReader();
+const decoder = new TextDecoder("utf-8");
+let buffer = "";
+
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+
+  // Decode chunk into text and accumulate
+  buffer += decoder.decode(value, { stream: true });
+
+  // SSE messages are often separated by double newlines
+  const events = buffer.split("\n\n");
+  buffer = events.pop() || ""; // Remainder for next iteration
+
+  for (const event of events) {
+    const lines = event.split("\n");
+    const dataLine = lines.find((l) => l.startsWith("data: "));
+    if (dataLine) {
+      const jsonString = dataLine.replace("data: ", "").trim();
+      try {
+        const eventData = JSON.parse(jsonString);
+        // Extract audio data from eventData and feed it to your player incrementally
+        // e.g., if eventData.audioChunk is base64 PCM:
+        // const audioBytes = Uint8Array.from(atob(eventData.audioChunk), c => c.charCodeAt(0));
+        // player.append(audioBytes);
+      } catch (err) {
+        console.error("Failed to parse SSE data:", err);
+      }
+    }
+  }
+}
+
+
 		setInput(transcript);
 
 		return [
