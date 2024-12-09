@@ -223,7 +223,4 @@ async function getTranscript(input: string | File) {
 		return null; // Empty audio file
 	}
 }
-
-export const config = {
-	runtime: 'nodejs',
-  };
+export const runtime = "nodejs"
