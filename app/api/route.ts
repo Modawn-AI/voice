@@ -8,6 +8,9 @@ import { unstable_after as after } from "next/server";
 import { createReadStream, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import 'isomorphic-ws';
+
+(globalThis as any).WebSocket = WebSocket;
 
 const groq = new Groq();
 const openai = new OpenAI({
