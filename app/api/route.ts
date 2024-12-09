@@ -46,12 +46,12 @@ export async function POST(request: Request) {
 
   // Send the file using the prosody config
   const humeResult = await socket.sendFile({
-    file,
-    config: { prosody: {} }, // Enable the prosody model
+	file: file, // Replace with your audio file
+	config: { prosody: {} }, // Enable the prosody model
   });
 
   // humeResult now contains the predictions from the prosody model
-const emotion = JSON.stringify(humeResult, null, 2)
+const emotion = humeResult
 
   console.timeEnd("transcribe " + (request.headers.get("x-vercel-id") || "local"));
   console.time("text completion " + (request.headers.get("x-vercel-id") || "local"));
@@ -123,7 +123,6 @@ const emotion = JSON.stringify(humeResult, null, 2)
     },
   });
 }
-
 function location() {
 	const headersList = headers();
 
