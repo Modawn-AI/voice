@@ -5,91 +5,132 @@ import { headers } from "next/headers";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { unstable_after as after } from "next/server";
+
 const groq = new Groq();
 const openai = new OpenAI({
-	apiKey: process.env.OPENAI_API_KEY, // Ensure your OpenAI API key is set in .env
-  });
-  const hume = new HumeClient({
-	apiKey: process.env.HUME_API_KEY!,
-  });
-const schema = zfd.formData({
-	input: z.union([zfd.text(), zfd.file()]),
-	message: zfd.repeatableOfType(
-		zfd.json(
-			z.object({
-				role: z.enum(["user", "assistant"]),
-				content: z.string(),
-			})
-		)
-	),
+  apiKey: process.env.OPENAI_API_KEY, // Ensure your OpenAI API key is set in .env
 });
+const hume = new HumeClient({
+  apiKey: process.env.HUME_API_KEY!,
+});
+
+const schema = zfd.formData({
+  input: z.union([zfd.text(), zfd.file()]),
+  message: zfd.repeatableOfType(
+    zfd.json(
+      z.object({
+        role: z.enum(["user", "assistant"]),
+        content: z.string(),
+      })
+    )
+  ),
+});
+
 export async function POST(request: Request) {
   console.time("transcribe " + (request.headers.get("x-vercel-id") || "local"));
 
-  const { data, success } = schema.safeParse(await request.formData());
-  if (!success) return new Response("Invalid request", { status: 400 });
+  console.log("🔹 Received request at:", new Date().toISOString());
 
+  // Parse the request form data
+  const formData = await request.formData();
+  console.log("📥 Form data received:", formData);
+
+  const { data, success } = schema.safeParse(formData);
+  console.log("✅ Schema parsing result:", { success, data });
+
+  if (!success) {
+    console.error("❌ Invalid request data");
+    return new Response("Invalid request", { status: 400 });
+  }
+
+  // Get transcript from the input
+  console.log("🎙️ Starting transcription...");
   const transcript = await getTranscript(data.input);
-  if (!transcript) return new Response("Invalid audio", { status: 400 });
+  console.log("📝 Transcript result:", transcript);
 
-  // data.input should be a File from the FormData
+  if (!transcript) {
+    console.error("❌ Invalid audio input");
+    return new Response("Invalid audio", { status: 400 });
+  }
+
+  // Input file handling
   const file = data.input as File;
+  console.log("📂 File received:", file.name, file.size, file.type);
 
+  console.log("🔄 Connecting to Hume client...");
   const socket = await hume.expressionMeasurement.stream.connect({
     config: {},
   });
+  console.log("✅ Connected to Hume client");
 
-  // Send the file directly as a Blob
-  const humeResult = await socket.sendFile({
-    file, // Pass the File (which is a Blob) here
-    config: { prosody: {} },
-  });
-
+  console.log("🚀 Sending file to Hume for prosody analysis...");
+  let humeResult;
+  try {
+    humeResult = await socket.sendFile({
+      file,
+      config: { prosody: {} },
+    });
+    console.log("✅ Hume result received:", JSON.stringify(humeResult, null, 2));
+  } catch (error) {
+    console.error("❌ Error sending file to Hume:", error);
+    return new Response("Hume processing failed", { status: 500 });
+  }
 
   function isConfig(result: any): result is { prosody: { predictions: any[] } } {
-	return result && result.prosody && Array.isArray(result.prosody.predictions);
+    return result && result.prosody && Array.isArray(result.prosody.predictions);
   }
-  
-  // After receiving humeResult
-  let emotion: string | { startTime: number; endTime: number; emotions: { name: string; score: number; }[]; }[] = [];
-  
+
+  let emotion:
+    | string
+    | { startTime: number; endTime: number; emotions: { name: string; score: number }[] }[] = [];
+
   if (isConfig(humeResult)) {
-	const prosodyPredictions = humeResult.prosody.predictions;
-  
-	emotion = prosodyPredictions.map((prediction: { start_time: number; end_time: number; emotions: any[] }) => ({
-	  startTime: prediction.start_time,
-	  endTime: prediction.end_time,
-	  emotions: prediction.emotions.map((emotion: { name: string; score: number }) => ({
-		name: emotion.name,
-		score: emotion.score,
-	  })),
-	}));
+    console.log("🔍 Parsing prosody predictions...");
+    const prosodyPredictions = humeResult.prosody.predictions;
+
+    emotion = prosodyPredictions.map((prediction: { start_time: number; end_time: number; emotions: any[] }) => ({
+      startTime: prediction.start_time,
+      endTime: prediction.end_time,
+      emotions: prediction.emotions.map((emotion: { name: string; score: number }) => ({
+        name: emotion.name,
+        score: emotion.score,
+      })),
+    }));
+    console.log("✅ Parsed emotions:", JSON.stringify(emotion, null, 2));
   } else {
-	console.error("Invalid humeResult or no prosody predictions available:", humeResult);
+    console.error("❌ Invalid Hume result or no prosody predictions available:", humeResult);
   }
+
   const emotionString = JSON.stringify(emotion, null, 2);
 
   console.timeEnd("transcribe " + (request.headers.get("x-vercel-id") || "local"));
   console.time("text completion " + (request.headers.get("x-vercel-id") || "local"));
 
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    max_tokens: 150,
-    messages: [
-      {
-        role: "system",
-        content: `당신은 연세대학교 학생 "박지영"으로, 친구들과 함께 감정 이해와 정서적 인식을 높일 수 있는 흥미로운 활동을 제안해야 합니다. 이 활동은 "이모맵" 이라는 게임 기반 도구를 중심으로 이루어집니다. 이 도구는 감정 단어, 표정 인식, 기억력 및 집중력 측정을 포함한 여러 가지 게임으로 구성되어 있으며, 사람들이 자신의 정서와 타인의 감정을 이해하는 데 도움을 줍니다.
-        항상 짧게 대답해줘.
-        `,
-      },
-      ...data.message,
-      {
-        role: "user",
-        content: transcript +". This is the emotional state of the user when the spoke these words. " +emotionString,
-      },
-    ],
-  });
-
+  console.log("💬 Sending request to OpenAI for text completion...");
+  let completion;
+  try {
+    completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      max_tokens: 150,
+      messages: [
+        {
+          role: "system",
+          content: `당신은 연세대학교 학생 "박지영"으로, 친구들과 함께 감정 이해와 정서적 인식을 높일 수 있는 흥미로운 활동을 제안해야 합니다. 이 활동은 "이모맵" 이라는 게임 기반 도구를 중심으로 이루어집니다. 이 도구는 감정 단어, 표정 인식, 기억력 및 집중력 측정을 포함한 여러 가지 게임으로 구성되어 있으며, 사람들이 자신의 정서와 타인의 감정을 이해하는 데 도움을 줍니다.
+          항상 짧게 대답해줘.
+          `,
+        },
+        ...data.message,
+        {
+          role: "user",
+          content: transcript + ". This is the emotional state of the user when they spoke these words. " + emotionString,
+        },
+      ],
+    });
+    console.log("✅ OpenAI completion received:", completion);
+  } catch (error) {
+    console.error("❌ Error during OpenAI completion:", error);
+    return new Response("Text completion failed", { status: 500 });
+  }
   const response = completion.choices[0].message.content;
   console.timeEnd("text completion " + (request.headers.get("x-vercel-id") || "local"));
   console.time("cartesia request " + (request.headers.get("x-vercel-id") || "local"));
