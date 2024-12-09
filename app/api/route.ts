@@ -50,8 +50,28 @@ export async function POST(request: Request) {
 	config: { prosody: {} }, // Enable the prosody model
   });
 
-  // humeResult now contains the predictions from the prosody model
-const emotion = humeResult
+  function isConfig(result: any): result is { prosody: { predictions: any[] } } {
+	return result && result.prosody && Array.isArray(result.prosody.predictions);
+  }
+  
+  // After receiving humeResult
+  let emotion: string | { startTime: number; endTime: number; emotions: { name: string; score: number; }[]; }[] = [];
+  
+  if (isConfig(humeResult)) {
+	const prosodyPredictions = humeResult.prosody.predictions;
+  
+	emotion = prosodyPredictions.map((prediction: { start_time: number; end_time: number; emotions: any[] }) => ({
+	  startTime: prediction.start_time,
+	  endTime: prediction.end_time,
+	  emotions: prediction.emotions.map((emotion: { name: string; score: number }) => ({
+		name: emotion.name,
+		score: emotion.score,
+	  })),
+	}));
+  } else {
+	console.error("Invalid humeResult or no prosody predictions available:", humeResult);
+  }
+  
 
   console.timeEnd("transcribe " + (request.headers.get("x-vercel-id") || "local"));
   console.time("text completion " + (request.headers.get("x-vercel-id") || "local"));
