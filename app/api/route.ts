@@ -1,10 +1,15 @@
 import Groq from "groq-sdk";
 import OpenAI from "openai";
 import { HumeClient } from "hume";
+import fs from "fs";
+import { promisify } from "util";
+import { tmpdir } from "os";
+import path from "path";
 import { headers } from "next/headers";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { unstable_after as after } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 
 const groq = new Groq();
 const openai = new OpenAI({
@@ -25,6 +30,37 @@ const schema = zfd.formData({
     )
   ),
 });
+
+const writeFile = promisify(fs.writeFile);
+const unlink = promisify(fs.unlink);
+
+// Utility function to convert File to fs.ReadStream
+async function fileToReadStream(file: File): Promise<fs.ReadStream> {
+  const tempFilePath = path.join(tmpdir(), `${Date.now()}-${uuidv4()}-${file.name}`);
+
+  try {
+    console.log("📝 Writing File to temporary path:", tempFilePath);
+    await writeFile(tempFilePath, Buffer.from(await file.arrayBuffer()));
+    console.log("✅ File successfully written to temporary path");
+
+    const readStream = fs.createReadStream(tempFilePath);
+
+    // Clean up the temporary file once the stream is closed
+    readStream.on("close", async () => {
+      try {
+        await unlink(tempFilePath);
+        console.log("🗑️ Temporary file deleted successfully:", tempFilePath);
+      } catch (error) {
+        console.error("❌ Error deleting temporary file:", error);
+      }
+    });
+
+    return readStream;
+  } catch (error) {
+    console.error("❌ Error in fileToReadStream:", error);
+    throw error;
+  }
+}
 
 export async function POST(request: Request) {
   console.time("transcribe " + (request.headers.get("x-vercel-id") || "local"));
@@ -55,19 +91,25 @@ export async function POST(request: Request) {
 
   // Input file handling
   const file = data.input as File;
-  console.log("📂 File received:", file.name, file.size, file.type);
+  let readStream: fs.ReadStream;
+  try {
+    console.log("🔄 Converting File to fs.ReadStream...");
+    readStream = await fileToReadStream(file);
+    console.log("✅ File successfully converted to fs.ReadStream");
+  } catch (error) {
+    console.error("❌ Error converting file to fs.ReadStream:", error);
+    return new Response("Failed to convert file to ReadStream", { status: 500 });
+  }
 
-  console.log("🔄 Connecting to Hume client...");
-  const socket = await hume.expressionMeasurement.stream.connect({
-    config: {},
-  });
-  console.log("✅ Connected to Hume client");
-
-  console.log("🚀 Sending file to Hume for prosody analysis...");
+  console.log("🚀 Connecting to Hume for prosody analysis...");
   let humeResult;
   try {
+    const socket = await hume.expressionMeasurement.stream.connect({
+      config: {},
+    });
+
     humeResult = await socket.sendFile({
-      file,
+      file: readStream, // Pass the fs.ReadStream here
       config: { prosody: {} },
     });
     console.log("✅ Hume result received:", JSON.stringify(humeResult, null, 2));
@@ -180,6 +222,9 @@ export async function POST(request: Request) {
     },
   });
 }
+
+
+
 function location() {
 	const headersList = headers();
 
