@@ -9,8 +9,22 @@ import { createReadStream, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import 'isomorphic-ws';
+import WebSocket from 'ws';
 
-(globalThis as any).WebSocket = WebSocket;
+if (typeof globalThis.WebSocket !== 'undefined') {
+  // Attempt to remove the existing read-only definition
+  try {
+    delete (globalThis as any).WebSocket;
+  } catch (err) {
+    console.warn("Could not delete existing WebSocket property:", err);
+  }
+}
+
+Object.defineProperty(globalThis, 'WebSocket', {
+  value: WebSocket,
+  writable: true,
+  configurable: true,
+});
 
 const groq = new Groq();
 const openai = new OpenAI({
