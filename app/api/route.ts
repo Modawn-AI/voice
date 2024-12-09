@@ -71,7 +71,7 @@ export async function POST(request: Request) {
   } else {
 	console.error("Invalid humeResult or no prosody predictions available:", humeResult);
   }
-  
+  const emotionString = JSON.stringify(emotion, null, 2);
 
   console.timeEnd("transcribe " + (request.headers.get("x-vercel-id") || "local"));
   console.time("text completion " + (request.headers.get("x-vercel-id") || "local"));
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
       ...data.message,
       {
         role: "user",
-        content: transcript +". This is the emotional state of the user when the spoke these words. " +emotion,
+        content: transcript +". This is the emotional state of the user when the spoke these words. " +emotionString,
       },
     ],
   });
