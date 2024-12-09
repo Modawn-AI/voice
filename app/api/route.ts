@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+import 'isomorphic-ws';
 import Groq from "groq-sdk";
 import OpenAI from "openai";
 import { HumeClient } from "hume";
@@ -29,7 +31,6 @@ const schema = zfd.formData({
     )
   ),
 });
-
 export async function POST(request: Request) {
 	console.time("transcribe " + (request.headers.get("x-vercel-id") || "local"));
 	console.log("🔹 Received request at:", new Date().toISOString());
@@ -45,7 +46,6 @@ export async function POST(request: Request) {
 	  return new Response("Invalid request", { status: 400 });
 	}
   
-	// Get transcript from the input
 	console.log("🎙️ Starting transcription...");
 	const transcript = await getTranscript(data.input);
 	console.log("📝 Transcript result:", transcript);
@@ -55,33 +55,29 @@ export async function POST(request: Request) {
 	  return new Response("Invalid audio", { status: 400 });
 	}
   
-	// Handle file input
 	const file = data.input as File;
 	console.log("📂 File received:", file.name, file.size, file.type);
   
-	// Convert the uploaded File into a Buffer
+	// Convert File to fs.ReadStream
 	const arrayBuffer = await file.arrayBuffer();
 	const buffer = Buffer.from(arrayBuffer);
-  
-	// Write the buffer to a temporary file
 	const tempFilePath = join(tmpdir(), file.name || "uploaded_audio.wav");
 	writeFileSync(tempFilePath, buffer);
-  
-	// Create an fs.ReadStream from the temporary file
 	const readStream = createReadStream(tempFilePath);
   
 	console.log("🔄 Connecting to Hume client...");
 	const socket = await hume.expressionMeasurement.stream.connect({
 	  config: {},
+	  // If there's an option to disable compression, add it here:
+	  // webSocketOptions: { perMessageDeflate: false }
 	});
 	console.log("✅ Connected to Hume client");
   
 	console.log("🚀 Sending file to Hume for prosody analysis...");
 	let humeResult;
 	try {
-	  // Pass the fs.ReadStream instead of a Blob/File
 	  humeResult = await socket.sendFile({
-		file: readStream, // Now using ReadStream
+		file: readStream,
 		config: { prosody: {} },
 	  });
 	  console.log("✅ Hume result received:", JSON.stringify(humeResult, null, 2));
