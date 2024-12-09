@@ -5,7 +5,9 @@ import { headers } from "next/headers";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { unstable_after as after } from "next/server";
-import { Blob } from 'buffer'; // Node.js 18+ environment
+import { createReadStream, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 
 const groq = new Groq();
 const openai = new OpenAI({
@@ -51,29 +53,38 @@ export async function POST(request: Request) {
     console.error("❌ Invalid audio input");
     return new Response("Invalid audio", { status: 400 });
   }
-
-  // Convert the uploaded file to a Blob (supported in Node.js 18+)
   const file = data.input as File;
   console.log("📂 File received:", file.name, file.size, file.type);
-  
+
+  // Convert the File to a Buffer
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
+  // Write the buffer to a temporary file
+  const tempFilePath = join(tmpdir(), file.name || "uploaded_audio.wav");
+  writeFileSync(tempFilePath, buffer);
+
+  // Create a ReadStream from the temporary file
+  const readStream = createReadStream(tempFilePath);
+
   console.log("🔄 Connecting to Hume client...");
   const socket = await hume.expressionMeasurement.stream.connect({
-	config: {},
+    config: {},
   });
   console.log("✅ Connected to Hume client");
-  
+
   console.log("🚀 Sending file to Hume for prosody analysis...");
   let humeResult;
   try {
-	// Pass the File object directly
-	humeResult = await socket.sendFile({
-	  file, // `file` is already a Blob (File is a subtype of Blob)
-	  config: { prosody: {} },
-	});
-	console.log("✅ Hume result received:", JSON.stringify(humeResult, null, 2));
+    // Pass the readStream instead of a Blob
+    humeResult = await socket.sendFile({
+      file: readStream,
+      config: { prosody: {} },
+    });
+    console.log("✅ Hume result received:", JSON.stringify(humeResult, null, 2));
   } catch (error) {
-	console.error("❌ Error sending file to Hume:", error);
-	return new Response("Hume processing failed", { status: 500 });
+    console.error("❌ Error sending file to Hume:", error);
+    return new Response("Hume processing failed", { status: 500 });
   }
 
   function isConfig(result: any): result is { prosody: { predictions: any[] } } {
