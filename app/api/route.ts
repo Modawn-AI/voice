@@ -1,10 +1,14 @@
 import Groq from "groq-sdk";
+import OpenAI from "openai";
 import { headers } from "next/headers";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { unstable_after as after } from "next/server";
 
 const groq = new Groq();
+const openai = new OpenAI({
+	apiKey: process.env.OPENAI_API_KEY, // Ensure your OpenAI API key is set in .env
+  });
 
 const schema = zfd.formData({
 	input: z.union([zfd.text(), zfd.file()]),
@@ -34,24 +38,23 @@ export async function POST(request: Request) {
 		"text completion " + request.headers.get("x-vercel-id") || "local"
 	);
 
-	const completion = await groq.chat.completions.create({
-		model: "llama-3.2-90b-vision-preview",
-		max_tokens: 100,
+	const completion = await openai.chat.completions.create({
+		model: "gpt-4o-mini",
+		max_tokens: 150,
 		messages: [
-			{
-				role: "system",
-				content: `당신은 연세대학교 학생 "박지영"으로, 친구들과 함께 감정 이해와 정서적 인식을 높일 수 있는 흥미로운 활동을 제안해야 합니다. 이 활동은 "이모맵" 이라는 게임 기반 도구를 중심으로 이루어집니다. 이 도구는 감정 단어, 표정 인식, 기억력 및 집중력 측정을 포함한 여러 가지 게임으로 구성되어 있으며, 사람들이 자신의 정서와 타인의 감정을 이해하는 데 도움을 줍니다.
-				항상 짧게 대답해줘.
-				`
-				
-			},
-			...data.message,
-			{
-				role: "user",
-				content: transcript,
-			}
+		  {
+			role: "system",
+			content: `당신은 연세대학교 학생 "박지영"으로, 친구들과 함께 감정 이해와 정서적 인식을 높일 수 있는 흥미로운 활동을 제안해야 합니다. 이 활동은 "이모맵" 이라는 게임 기반 도구를 중심으로 이루어집니다. 이 도구는 감정 단어, 표정 인식, 기억력 및 집중력 측정을 포함한 여러 가지 게임으로 구성되어 있으며, 사람들이 자신의 정서와 타인의 감정을 이해하는 데 도움을 줍니다.
+			항상 짧게 대답해줘.
+			`,
+		  },
+		  ...data.message,
+		  {
+			role: "user",
+			content: transcript,
+		  },
 		],
-	});
+	  });
 
 	const response = completion.choices[0].message.content;
 	console.timeEnd(
@@ -74,8 +77,8 @@ export async function POST(request: Request) {
 			transcript: response,
 			voice: {
 				mode: "id",
-				//id: "9c0afccc-ce37-46d7-8e68-52794655ea20",
-				id: "bedb7ab7-8f8d-42e6-af3c-7ceae33d0d20",
+				id: "9c0afccc-ce37-46d7-8e68-52794655ea20",
+				//id: "bedb7ab7-8f8d-42e6-af3c-7ceae33d0d20",
 	
 			},
 			_experimental_voice_controls :  {"speed": "slowest", "emotion": ["positivity:high"]},
