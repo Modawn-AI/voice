@@ -35,20 +35,16 @@ export async function POST(request: Request) {
   // data.input should be a File from the FormData
   const file = data.input as File;
 
-  // Initialize the Hume client and connect with prosody config
-
-  // Connect to the streaming endpoint (we can start with any model, then override in sendFile)
   const socket = await hume.expressionMeasurement.stream.connect({
-    config: {
-      // We can leave this empty or specify another model here; we'll override at send time
-    },
+    config: {},
   });
 
-  // Send the file using the prosody config
+  // Send the file directly as a Blob
   const humeResult = await socket.sendFile({
-	file: file, // Replace with your audio file
-	config: { prosody: {} }, // Enable the prosody model
+    file, // Pass the File (which is a Blob) here
+    config: { prosody: {} },
   });
+
 
   function isConfig(result: any): result is { prosody: { predictions: any[] } } {
 	return result && result.prosody && Array.isArray(result.prosody.predictions);
