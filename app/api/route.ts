@@ -6,25 +6,9 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { unstable_after as after } from "next/server";
 import { createReadStream, writeFileSync } from "node:fs";
-import { join } from "node:path";
-import { tmpdir } from "node:os";
-import 'isomorphic-ws';
-import WebSocket from 'ws';
-
-if (typeof globalThis.WebSocket !== 'undefined') {
-  // Attempt to remove the existing read-only definition
-  try {
-    delete (globalThis as any).WebSocket;
-  } catch (err) {
-    console.warn("Could not delete existing WebSocket property:", err);
-  }
-}
-
-Object.defineProperty(globalThis, 'WebSocket', {
-  value: WebSocket,
-  writable: true,
-  configurable: true,
-});
+import fs from "fs";
+import { join } from "path";
+import { tmpdir } from "os";
 
 const groq = new Groq();
 const openai = new OpenAI({
@@ -47,63 +31,64 @@ const schema = zfd.formData({
 });
 
 export async function POST(request: Request) {
-  console.time("transcribe " + (request.headers.get("x-vercel-id") || "local"));
-  console.log("🔹 Received request at:", new Date().toISOString());
-
-  const formData = await request.formData();
-  console.log("📥 Form data received:", formData);
-
-  const { data, success } = schema.safeParse(formData);
-  console.log("✅ Schema parsing result:", { success, data });
-
-  if (!success) {
-    console.error("❌ Invalid request data");
-    return new Response("Invalid request", { status: 400 });
-  }
-
-  // Get transcript from the input
-  console.log("🎙️ Starting transcription...");
-  const transcript = await getTranscript(data.input);
-  console.log("📝 Transcript result:", transcript);
-
-  if (!transcript) {
-    console.error("❌ Invalid audio input");
-    return new Response("Invalid audio", { status: 400 });
-  }
-  const file = data.input as File;
-  console.log("📂 File received:", file.name, file.size, file.type);
-
-  // Convert the File to a Buffer
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-
-  // Write the buffer to a temporary file
-  const tempFilePath = join(tmpdir(), file.name || "uploaded_audio.wav");
-  writeFileSync(tempFilePath, buffer);
-
-  // Create a ReadStream from the temporary file
-  const readStream = createReadStream(tempFilePath);
-
-  console.log("🔄 Connecting to Hume client...");
-  const socket = await hume.expressionMeasurement.stream.connect({
-    config: {},
-  });
-  console.log("✅ Connected to Hume client");
-
-  console.log("🚀 Sending file to Hume for prosody analysis...");
-  let humeResult;
-  try {
-    // Pass the readStream instead of a Blob
-    humeResult = await socket.sendFile({
-      file: readStream,
-      config: { prosody: {} },
-    });
-    console.log("✅ Hume result received:", JSON.stringify(humeResult, null, 2));
-  } catch (error) {
-    console.error("❌ Error sending file to Hume:", error);
-    return new Response("Hume processing failed", { status: 500 });
-  }
-
+	console.time("transcribe " + (request.headers.get("x-vercel-id") || "local"));
+	console.log("🔹 Received request at:", new Date().toISOString());
+  
+	const formData = await request.formData();
+	console.log("📥 Form data received:", formData);
+  
+	const { data, success } = schema.safeParse(formData);
+	console.log("✅ Schema parsing result:", { success, data });
+  
+	if (!success) {
+	  console.error("❌ Invalid request data");
+	  return new Response("Invalid request", { status: 400 });
+	}
+  
+	// Get transcript from the input
+	console.log("🎙️ Starting transcription...");
+	const transcript = await getTranscript(data.input);
+	console.log("📝 Transcript result:", transcript);
+  
+	if (!transcript) {
+	  console.error("❌ Invalid audio input");
+	  return new Response("Invalid audio", { status: 400 });
+	}
+  
+	// Handle file input
+	const file = data.input as File;
+	console.log("📂 File received:", file.name, file.size, file.type);
+  
+	// Convert the uploaded File into a Buffer
+	const arrayBuffer = await file.arrayBuffer();
+	const buffer = Buffer.from(arrayBuffer);
+  
+	// Write the buffer to a temporary file
+	const tempFilePath = join(tmpdir(), file.name || "uploaded_audio.wav");
+	writeFileSync(tempFilePath, buffer);
+  
+	// Create an fs.ReadStream from the temporary file
+	const readStream = createReadStream(tempFilePath);
+  
+	console.log("🔄 Connecting to Hume client...");
+	const socket = await hume.expressionMeasurement.stream.connect({
+	  config: {},
+	});
+	console.log("✅ Connected to Hume client");
+  
+	console.log("🚀 Sending file to Hume for prosody analysis...");
+	let humeResult;
+	try {
+	  // Pass the fs.ReadStream instead of a Blob/File
+	  humeResult = await socket.sendFile({
+		file: readStream, // Now using ReadStream
+		config: { prosody: {} },
+	  });
+	  console.log("✅ Hume result received:", JSON.stringify(humeResult, null, 2));
+	} catch (error) {
+	  console.error("❌ Error sending file to Hume:", error);
+	  return new Response("Hume processing failed", { status: 500 });
+	}
   function isConfig(result: any): result is { prosody: { predictions: any[] } } {
     return result && result.prosody && Array.isArray(result.prosody.predictions);
   }
@@ -240,4 +225,3 @@ async function getTranscript(input: string | File) {
 		return null; // Empty audio file
 	}
 }
-export const runtime = "nodejs"
