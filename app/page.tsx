@@ -22,36 +22,76 @@ export default function Home() {
 	const vad = useMicVAD({
 		startOnLoad: true,
 		onSpeechEnd: (audio) => {
-			player.stop();
-			const wav = utils.encodeWAV(audio);
-			const blob = new Blob([wav], { type: "audio/wav" });
-			submit(blob);
-			const isFirefox = navigator.userAgent.includes("Firefox");
-			console.log("isFirefox", isFirefox);
-			if (isFirefox) vad.pause();
+		  player.stop();
+	  
+		  // Encode the audio to WAV format
+		  const wav = utils.encodeWAV(audio);
+		  const blob = new Blob([wav], { type: "audio/wav" });
+		  submit(blob); 
+		  // Convert the Blob to Base64 and send it to the Flask backend
+		  const reader = new FileReader();
+		  reader.readAsDataURL(blob);
+	  
+		  reader.onload = async () => {
+			const base64Audio = reader.result?.toString();
+	  
+			if (!base64Audio) {
+			  toast.error("Failed to encode audio to Base64.");
+			  return;
+			}
+	  
+			try {
+			  // Send the Base64 audio to the Flask backend
+			  const response = await fetch("http://localhost:5000/analyze", {
+				method: "POST",
+				headers: {
+				  "Content-Type": "application/json",
+				},
+				body: JSON.stringify({ audio: base64Audio }),
+			  });
+	  
+			  if (!response.ok) {
+				const error = await response.text();
+				toast.error(`Error from server: ${error}`);
+				return;
+			  }
+	  
+			  const result = await response.json();
+			  console.log("Hume AI Analysis Result:", result);
+			  toast.success("Audio processed successfully!");
+			} catch (error) {
+			  console.error("Network error:", error);
+			  toast.error("Network error while sending audio to Flask backend.");
+			}
+		  };
+	  
+		  reader.onerror = () => {
+			toast.error("Error reading the audio file.");
+		  };
+	  
+		  const isFirefox = navigator.userAgent.includes("Firefox");
+		  console.log("isFirefox:", isFirefox);
+		  if (isFirefox) vad.pause();
 		},
 		workletURL: "/vad.worklet.bundle.min.js",
 		modelURL: "/silero_vad.onnx",
 		positiveSpeechThreshold: 0.6,
 		minSpeechFrames: 4,
 		ortConfig(ort) {
-			const isSafari = /^((?!chrome|android).)*safari/i.test(
-				navigator.userAgent
-			);
-
-			ort.env.wasm = {
-				wasmPaths: {
-					"ort-wasm-simd-threaded.wasm":
-						"/ort-wasm-simd-threaded.wasm",
-					"ort-wasm-simd.wasm": "/ort-wasm-simd.wasm",
-					"ort-wasm.wasm": "/ort-wasm.wasm",
-					"ort-wasm-threaded.wasm": "/ort-wasm-threaded.wasm",
-				},
-				numThreads: isSafari ? 1 : 4,
-			};
+		  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+	  
+		  ort.env.wasm = {
+			wasmPaths: {
+			  "ort-wasm-simd-threaded.wasm": "/ort-wasm-simd-threaded.wasm",
+			  "ort-wasm-simd.wasm": "/ort-wasm-simd.wasm",
+			  "ort-wasm.wasm": "/ort-wasm.wasm",
+			  "ort-wasm-threaded.wasm": "/ort-wasm-threaded.wasm",
+			},
+			numThreads: isSafari ? 1 : 4,
+		  };
 		},
-	});
-
+	  });
+	  
 	useEffect(() => {
 		function keyDown(e: KeyboardEvent) {
 			if (e.key === "Enter") return inputRef.current?.focus();
@@ -105,40 +145,10 @@ export default function Home() {
 		}
 
 		const latency = Date.now() - submittedAt;
-		const reader = response.body.getReader();
-const decoder = new TextDecoder("utf-8");
-let buffer = "";
-
-while (true) {
-  const { done, value } = await reader.read();
-  if (done) break;
-
-  // Decode chunk into text and accumulate
-  buffer += decoder.decode(value, { stream: true });
-
-  // SSE messages are often separated by double newlines
-  const events = buffer.split("\n\n");
-  buffer = events.pop() || ""; // Remainder for next iteration
-
-  for (const event of events) {
-    const lines = event.split("\n");
-    const dataLine = lines.find((l) => l.startsWith("data: "));
-    if (dataLine) {
-      const jsonString = dataLine.replace("data: ", "").trim();
-      try {
-        const eventData = JSON.parse(jsonString);
-        // Extract audio data from eventData and feed it to your player incrementally
-        // e.g., if eventData.audioChunk is base64 PCM:
-        // const audioBytes = Uint8Array.from(atob(eventData.audioChunk), c => c.charCodeAt(0));
-        // player.append(audioBytes);
-      } catch (err) {
-        console.error("Failed to parse SSE data:", err);
-      }
-    }
-  }
-}
-
-
+		player.play(response.body, () => {
+			const isFirefox = navigator.userAgent.includes("Firefox");
+			if (isFirefox) vad.start();
+		});
 		setInput(transcript);
 
 		return [
