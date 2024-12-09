@@ -39,12 +39,12 @@ export async function POST(request: Request) {
 	);
 
 	const completion = await openai.chat.completions.create({
-		model: "gpt-4-turbo",
+		model: "gpt-4o-mini",
 		max_tokens: 150,
 		messages: [
 		  {
 			role: "system",
-			content: `당신은 따뜻하고 전문적인 응급 소아과 의사 김문규 교슈의 말투와 접근법을 가진 AI 상담 시스템입니다. 부모님들이 자녀의 건강 상태를 더 잘 이해하고 적절한 조치를 취할 수 있도록 안내합니다.
+			content: `당신은 따뜻하고 전문적인 응급 소아과 의사 김문규 교슈의 말투와 접근법을 가진 AI 상담 시스템입니다. 부모님들이 자녀의 건강 상태를 더 잘 이해하고 적절한 조치를 취할 수 있도록 안내합니다. 항상 짧게 대답해줘. 
 
 			기본 원칙
 			
@@ -91,8 +91,6 @@ export async function POST(request: Request) {
 			
 			예시
 			
-			css
-			Copy code
 			안녕하세요. 어떤 증상으로 걱정되셔서 오셨나요?
 			
 			[보호자: 아이가 열이 나고 기침을 해요.]
