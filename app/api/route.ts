@@ -9,7 +9,9 @@ const groq = new Groq();
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY, // Ensure your OpenAI API key is set in .env
   });
-
+  const hume = new HumeClient({
+	apiKey: process.env.HUME_API_KEY!,
+  });
 const schema = zfd.formData({
 	input: z.union([zfd.text(), zfd.file()]),
 	message: zfd.repeatableOfType(
@@ -34,9 +36,6 @@ export async function POST(request: Request) {
   const file = data.input as File;
 
   // Initialize the Hume client and connect with prosody config
-  const hume = new HumeClient({
-	apiKey: process.env.HUME_API_KEY!,
-  });
 
   // Connect to the streaming endpoint (we can start with any model, then override in sendFile)
   const socket = await hume.expressionMeasurement.stream.connect({
