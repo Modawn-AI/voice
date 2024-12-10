@@ -1,5 +1,3 @@
-export const runtime = 'nodejs';
-import 'isomorphic-ws';
 import Groq from "groq-sdk";
 import OpenAI from "openai";
 import { HumeClient } from "hume";
@@ -7,14 +5,10 @@ import { headers } from "next/headers";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { unstable_after as after } from "next/server";
-import { createReadStream, writeFileSync } from "node:fs";
-import fs from "fs";
-import { join } from "path";
-import { tmpdir } from "os";
 
 const groq = new Groq();
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY, // Ensure your OpenAI API key is set in .env
 });
 const hume = new HumeClient({
   apiKey: process.env.HUME_API_KEY!,
@@ -31,73 +25,62 @@ const schema = zfd.formData({
     )
   ),
 });
+
 export async function POST(request: Request) {
-	console.time("transcribe " + (request.headers.get("x-vercel-id") || "local"));
-	console.log("🔹 Received request at:", new Date().toISOString());
-  
-	const formData = await request.formData();
-	console.log("📥 Form data received:", formData);
-  
-	const { data, success } = schema.safeParse(formData);
-	console.log("✅ Schema parsing result:", { success, data });
-  
-	if (!success) {
-	  console.error("❌ Invalid request data");
-	  return new Response("Invalid request", { status: 400 });
-	}
-  
-	console.log("🎙️ Starting transcription...");
-	const transcript = await getTranscript(data.input);
-	console.log("📝 Transcript result:", transcript);
-  
-	if (!transcript) {
-	  console.error("❌ Invalid audio input");
-	  return new Response("Invalid audio", { status: 400 });
-	}
-  
-	const file = data.input as File;
-	console.log("📂 File received:", file.name, file.size, file.type);
-  
-	// Convert File to fs.ReadStream
-	const arrayBuffer = await file.arrayBuffer();
-	const buffer = Buffer.from(arrayBuffer);
-	const tempFilePath = join(tmpdir(), file.name || "uploaded_audio.wav");
-	writeFileSync(tempFilePath, buffer);
-	const readStream = createReadStream(tempFilePath);
-  
-	console.log("🔄 Connecting to Hume client...");
-	const socket = await hume.expressionMeasurement.stream.connect({
-	  config: {},
-	  // If there's an option to disable compression, add it here:
-	  // webSocketOptions: { perMessageDeflate: false }
-	});
-	console.log("✅ Connected to Hume client");
-  
-	console.log("🚀 Sending file to Hume for prosody analysis...");
-	let humeResult;
-	try {
-	  humeResult = await socket.sendFile({
-		file: readStream,
-		config: { prosody: {} },
-	  });
-	  console.log("✅ Hume result received:", JSON.stringify(humeResult, null, 2));
-	} catch (error) {
-	  console.error("❌ Error sending file to Hume:", error);
-	  return new Response("Hume processing failed", { status: 500 });
-	}
-  function isConfig(result: any): result is { prosody: { predictions: any[] } } {
-    return result && result.prosody && Array.isArray(result.prosody.predictions);
+  console.time("transcribe " + (request.headers.get("x-vercel-id") || "local"));
+
+  console.log("🔹 Received request at:", new Date().toISOString());
+
+  // Parse the request form data
+  const formData = await request.formData();
+  console.log("📥 Form data received:", formData);
+
+  // Extract the audio file from form data
+  const file = formData.get("input") as File;
+
+  if (!file) {
+    console.error("❌ No file provided");
+    return new Response("No file provided", { status: 400 });
   }
 
-  let emotion:
-    | string
-    | { startTime: number; endTime: number; emotions: { name: string; score: number }[] }[] = [];
+  console.log("📂 File received:", file.name, file.size, file.type);
 
-  if (isConfig(humeResult)) {
+  // Prepare form data for Hume API request
+  const humeFormData = new FormData();
+  humeFormData.append("file", file);
+  humeFormData.append("models", JSON.stringify({ prosody: {} }));
+
+  console.log("🔄 Sending file to Hume REST API for prosody analysis...");
+
+  let humeResult;
+  try {
+    const response = await fetch("https://api.hume.ai/v0/batch/models", {
+      method: "POST",
+      headers: {
+        "X-Hume-Api-Key": process.env.HUME_API_KEY || "",
+      },
+      body: humeFormData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Hume API request failed with status ${response.status}`);
+    }
+
+    humeResult = await response.json();
+    console.log("✅ Hume result received:", JSON.stringify(humeResult, null, 2));
+  } catch (error) {
+    console.error("❌ Error sending file to Hume:", error);
+    return new Response("Hume processing failed", { status: 500 });
+  }
+
+  // Parse prosody predictions from the Hume response
+  const prosodyPredictions = humeResult?.predictions?.[0]?.prosody?.predictions;
+
+  let emotions = [];
+
+  if (prosodyPredictions) {
     console.log("🔍 Parsing prosody predictions...");
-    const prosodyPredictions = humeResult.prosody.predictions;
-
-    emotion = prosodyPredictions.map((prediction: { start_time: number; end_time: number; emotions: any[] }) => ({
+    emotions = prosodyPredictions.map((prediction: { start_time: number; end_time: number; emotions: any[] }) => ({
       startTime: prediction.start_time,
       endTime: prediction.end_time,
       emotions: prediction.emotions.map((emotion: { name: string; score: number }) => ({
@@ -105,12 +88,13 @@ export async function POST(request: Request) {
         score: emotion.score,
       })),
     }));
-    console.log("✅ Parsed emotions:", JSON.stringify(emotion, null, 2));
+    console.log("✅ Parsed emotions:", JSON.stringify(emotions, null, 2));
   } else {
-    console.error("❌ Invalid Hume result or no prosody predictions available:", humeResult);
+    console.error("❌ No prosody predictions found in the response");
   }
 
-  const emotionString = JSON.stringify(emotion, null, 2);
+
+  const emotionString = JSON.stringify(emotions, null, 2);
 
   console.timeEnd("transcribe " + (request.headers.get("x-vercel-id") || "local"));
   console.time("text completion " + (request.headers.get("x-vercel-id") || "local"));
