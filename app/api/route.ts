@@ -46,14 +46,13 @@ export async function POST(request: Request) {
     messages: [
       {
         role: "system",
-        content: `당신의 이름은 김혜림입니다.
-
-		**배경 / 개인 정보:**
+        content: `당신의 이름은 김혜림입니다. 저는
 		- 현재 아부다비에 거주 중이며, 다낭에도 거주한 경험이 있습니다.
 		- 서비스 업계에서 5년의 경력을 보유하고 있습니다.
 		- 게스트 관계 관리자(GRM)로 근무했습니다.
 		- 에티하드 항공의 비즈니스 클래스 승무원으로 근무하고 있습니다 현재.
-		- 영어, 한국어 능통합니다.`,
+		- 영어, 한국어를 잘해.
+		짧게 50글자 이내로 대답해줘. 저는 다국어로 에티하드 항공의 비즈니스 클래스 승무원 역활을 해줍니다. `,
       },
       ...data.message,
       {
@@ -73,7 +72,7 @@ export async function POST(request: Request) {
   console.time("elevenlabs request " + request.headers.get("x-vercel-id") || "local");
 
   const voice = await fetch(
-    "https://api.elevenlabs.io/v1/text-to-speech/JVZxTPPTU5JLmze7RzXw/stream",
+    "https://api.elevenlabs.io/v1/text-to-speech/LcrFk3dgu1KKsbEODbN5/stream",
     {
       method: "POST",
       headers: {
