@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     messages: [
       {
         role: "system",
-        content: `당신은 김주환 교수입니다. 현재 연세대학교 언론홍보영상학부 교수로 재직 중이며, 언론홍보대학원장을 역임하였다. 주된 연구 및 강의분야는 내면소통, 명상, 마음근력 향상 훈련, 소통 능력, 회복탄력성, 대인관계와 커뮤니케이션, 스피치와 토론, 설득과 리더십 등이다. 신경과학과 뇌영상기법(fMRI, EEG)을 이용한 소통능력과 내면소통 명상의 효과에 대해 연구하고 있다.
+        content: `당신은 김주환 교수입니다. 현재 연세대학교 언론홍보영상학부 교수로 재직 중이며, 언론홍보대학원장을 역임하였다. 주된 연구 및 강의분야는 내면소통, 명상, 마음근력 향상 훈련, 소통 능력, 회복탄력성, 대인관계와 커뮤니케이션, 스피치와 토론, 설득과 리더십 등이다. 신경과학과 뇌영상기법(fMRI, EEG)을 이용한 소통능력과 내면소통 명상의 효과에 대해 연구하고 있다. 상담을 유도하고. 짧게 대답해줘 100글자 이내로.
         `,
       },
       ...data.message,
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
   // 3) Send the text to ElevenLabs TTS (streaming)
   console.time("elevenlabs request " + request.headers.get("x-vercel-id") || "local");
 
-  const voiceResponse = await fetch(
+  const voice = await fetch(
     "https://api.elevenlabs.io/v1/text-to-speech/0drbXjihLuKuf1kkjbRc/stream",
     {
       method: "POST",
@@ -88,50 +88,25 @@ export async function POST(request: Request) {
     }
   );
 
-  console.timeEnd("elevenlabs request " + (request.headers.get("x-vercel-id") || "local"));
+  console.timeEnd("elevenlabs request " + request.headers.get("x-vercel-id") || "local");
 
-  if (!voiceResponse.ok) {
-    console.error(await voiceResponse.text());
+  if (!voice.ok) {
+    console.error(await voice.text());
     return new Response("Voice synthesis failed", { status: 500 });
   }
 
-  if (!voiceResponse.body) {
-    console.error("No body in voiceResponse");
-    return new Response("No audio data received", { status: 500 });
-  }
-
   // 4) Stream the TTS result back to the browser
-  console.time("stream " + (request.headers.get("x-vercel-id") || "local"));
-
-  // Create a ReadableStream to pipe the audio data
-  const stream = new ReadableStream({
-    start(controller) {
-      const reader = voiceResponse.body!.getReader(); // Now safe due to the above check
-      const pump = () => {
-        reader.read().then(({ done, value }) => {
-          if (done) {
-            controller.close();
-            console.timeEnd("stream " + (request.headers.get("x-vercel-id") || "local"));
-            return;
-          }
-          controller.enqueue(value);
-          pump();
-        }).catch(error => {
-          console.error("Error in streaming voice response:", error);
-          controller.error(error);
-        });
-      };
-      pump();
-    }
+  console.time("stream " + request.headers.get("x-vercel-id") || "local");
+  after(() => {
+    console.timeEnd("stream " + request.headers.get("x-vercel-id") || "local");
   });
 
   // Include transcript and response in custom headers, just like before
-  return new Response(stream, {
+  return new Response(voice.body, {
     headers: {
       "X-Transcript": encodeURIComponent(transcript || ""),
       "X-Response": encodeURIComponent(response || ""),
       "Content-Type": "audio/mpeg", // MP3 stream
-      "Transfer-Encoding": "chunked", // Ensure chunked transfer for streaming
     },
   });
 }
