@@ -4,205 +4,221 @@ import clsx from "clsx";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { EnterIcon, LoadingIcon } from "@/lib/icons";
-import { usePlayer } from "@/lib/usePlayer";
 import { track } from "@vercel/analytics";
 import { useMicVAD, utils } from "@ricky0123/vad-react";
 
 type Message = {
-	role: "user" | "assistant";
-	content: string;
-	latency?: number;
+  role: "user" | "assistant";
+  content: string;
+  latency?: number;
 };
 
 export default function Home() {
-	const [input, setInput] = useState("");
-	const inputRef = useRef<HTMLInputElement>(null);
-	const player = usePlayer();
+  const [input, setInput] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [messages, submit, isPending] = useActionState<
+    Array<Message>,
+    string | Blob
+  >(async (prevMessages, data) => {
+    const formData = new FormData();
 
-	const vad = useMicVAD({
-		startOnLoad: true,
-		onSpeechEnd: (audio) => {
-			player.stop();
-			const wav = utils.encodeWAV(audio);
-			const blob = new Blob([wav], { type: "audio/wav" });
-			submit(blob);
-			const isFirefox = navigator.userAgent.includes("Firefox");
-			console.log("isFirefox", isFirefox);
-			if (isFirefox) vad.pause();
-		},
-		workletURL: "/vad.worklet.bundle.min.js",
-		modelURL: "/silero_vad.onnx",
-		positiveSpeechThreshold: 0.6,
-		minSpeechFrames: 4,
-		ortConfig(ort) {
-			const isSafari = /^((?!chrome|android).)*safari/i.test(
-				navigator.userAgent
-			);
+    if (typeof data === "string") {
+      formData.append("input", data);
+      track("Text input");
+    } else {
+      formData.append("input", data, "audio.wav");
+      track("Speech input");
+    }
 
-			ort.env.wasm = {
-				wasmPaths: {
-					"ort-wasm-simd-threaded.wasm":
-						"/ort-wasm-simd-threaded.wasm",
-					"ort-wasm-simd.wasm": "/ort-wasm-simd.wasm",
-					"ort-wasm.wasm": "/ort-wasm.wasm",
-					"ort-wasm-threaded.wasm": "/ort-wasm-threaded.wasm",
-				},
-				numThreads: isSafari ? 1 : 4,
-			};
-		},
-	});
+    for (const message of prevMessages) {
+      formData.append("message", JSON.stringify(message));
+    }
 
-	useEffect(() => {
-		function keyDown(e: KeyboardEvent) {
-			if (e.key === "Enter") return inputRef.current?.focus();
-			if (e.key === "Escape") return setInput("");
-		}
+    const submittedAt = Date.now();
 
-		window.addEventListener("keydown", keyDown);
-		return () => window.removeEventListener("keydown", keyDown);
-	});
+    const response = await fetch("/api", {
+      method: "POST",
+      body: formData,
+    });
 
-	const [messages, submit, isPending] = useActionState<
-		Array<Message>,
-		string | Blob
-	>(async (prevMessages, data) => {
-		const formData = new FormData();
+    const transcript = decodeURIComponent(
+      response.headers.get("X-Transcript") || ""
+    );
+    const text = decodeURIComponent(
+      response.headers.get("X-Response") || ""
+    );
 
-		if (typeof data === "string") {
-			formData.append("input", data);
-			track("Text input");
-		} else {
-			formData.append("input", data, "audio.wav");
-			track("Speech input");
-		}
+    if (!response.ok || !transcript || !text || !response.body) {
+      if (response.status === 429) {
+        toast.error("Too many requests. Please try again later.");
+      } else {
+        toast.error((await response.text()) || "An error occurred.");
+      }
 
-		for (const message of prevMessages) {
-			formData.append("message", JSON.stringify(message));
-		}
+      return prevMessages;
+    }
 
-		const submittedAt = Date.now();
+    const latency = Date.now() - submittedAt;
 
-		const response = await fetch("/api", {
-			method: "POST",
-			body: formData,
-		});
+    // Handle MP3 Playback
+    try {
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      audio.play().catch((error) => {
+        console.error("Audio playback failed:", error);
+        toast.error("Audio playback failed.");
+      });
 
-		const transcript = decodeURIComponent(
-			response.headers.get("X-Transcript") || ""
-		);
-		const text = decodeURIComponent(
-			response.headers.get("X-Response") || ""
-		);
+      // Cleanup the object URL after playback
+      audio.addEventListener("ended", () => {
+        URL.revokeObjectURL(audioUrl);
+        const isFirefox = navigator.userAgent.includes("Firefox");
+        if (isFirefox) {
+          vad.start();
+        }
+      });
+    } catch (error) {
+      console.error("Failed to play audio:", error);
+      toast.error("Failed to play audio.");
+    }
 
-		if (!response.ok || !transcript || !text || !response.body) {
-			if (response.status === 429) {
-				toast.error("Too many requests. Please try again later.");
-			} else {
-				toast.error((await response.text()) || "An error occurred.");
-			}
+    setInput(transcript);
 
-			return prevMessages;
-		}
+    return [
+      ...prevMessages,
+      {
+        role: "user",
+        content: transcript,
+      },
+      {
+        role: "assistant",
+        content: text,
+        latency,
+      },
+    ];
+  }, []);
 
-		const latency = Date.now() - submittedAt;
-		player.play(response.body, () => {
-			const isFirefox = navigator.userAgent.includes("Firefox");
-			if (isFirefox) vad.start();
-		});
-		setInput(transcript);
+  const vad = useMicVAD({
+    startOnLoad: true,
+    onSpeechEnd: (audio) => {
+      // Since we're not using the custom player anymore, handle accordingly
+      const wav = utils.encodeWAV(audio);
+      const blob = new Blob([wav], { type: "audio/wav" });
+      submit(blob);
+      const isFirefox = navigator.userAgent.includes("Firefox");
+      console.log("isFirefox", isFirefox);
+      if (isFirefox) vad.pause();
+    },
+    workletURL: "/vad.worklet.bundle.min.js",
+    modelURL: "/silero_vad.onnx",
+    positiveSpeechThreshold: 0.6,
+    minSpeechFrames: 4,
+    ortConfig(ort) {
+      const isSafari = /^((?!chrome|android).)*safari/i.test(
+        navigator.userAgent
+      );
 
-		return [
-			...prevMessages,
-			{
-				role: "user",
-				content: transcript,
-			},
-			{
-				role: "assistant",
-				content: text,
-				latency,
-			},
-		];
-	}, []);
+      ort.env.wasm = {
+        wasmPaths: {
+          "ort-wasm-simd-threaded.wasm":
+            "/ort-wasm-simd-threaded.wasm",
+          "ort-wasm-simd.wasm": "/ort-wasm-simd.wasm",
+          "ort-wasm.wasm": "/ort-wasm.wasm",
+          "ort-wasm-threaded.wasm": "/ort-wasm-threaded.wasm",
+        },
+        numThreads: isSafari ? 1 : 4,
+      };
+    },
+  });
 
-	function handleFormSubmit(e: React.FormEvent) {
-		e.preventDefault();
-		submit(input);
-	}
+  useEffect(() => {
+    function keyDown(e: KeyboardEvent) {
+      if (e.key === "Enter") return inputRef.current?.focus();
+      if (e.key === "Escape") return setInput("");
+    }
 
-	return (
-		<>
-			<div className="pb-4 min-h-28" />
+    window.addEventListener("keydown", keyDown);
+    return () => window.removeEventListener("keydown", keyDown);
+  }, []);
 
-			<form
-				className="rounded-full bg-neutral-200/80 dark:bg-neutral-800/80 flex items-center w-full max-w-3xl border border-transparent hover:border-neutral-300 focus-within:border-neutral-400 hover:focus-within:border-neutral-400 dark:hover:border-neutral-700 dark:focus-within:border-neutral-600 dark:hover:focus-within:border-neutral-600"
-				onSubmit={handleFormSubmit}
-			>
-				<input
-					type="text"
-					className="bg-transparent focus:outline-none p-4 w-full placeholder:text-neutral-600 dark:placeholder:text-neutral-400"
-					required
-					placeholder="Ask me anything"
-					value={input}
-					onChange={(e) => setInput(e.target.value)}
-					ref={inputRef}
-				/>
+  function handleFormSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    submit(input);
+  }
 
-				<button
-					type="submit"
-					className="p-4 text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"
-					disabled={isPending}
-					aria-label="Submit"
-				>
-					{isPending ? <LoadingIcon /> : <EnterIcon />}
-				</button>
-			</form>
+  return (
+    <>
+      <div className="pb-4 min-h-28" />
 
-			<div className="text-neutral-400 dark:text-neutral-600 pt-4 text-center max-w-xl text-balance min-h-28 space-y-4">
-				{messages.length > 0 && (
-					<p>
-						{messages.at(-1)?.content}
-						<span className="text-xs font-mono text-neutral-300 dark:text-neutral-700">
-							{" "}
-							({messages.at(-1)?.latency}ms)
-						</span>
-					</p>
-				)}
+      <form
+        className="rounded-full bg-neutral-200/80 dark:bg-neutral-800/80 flex items-center w-full max-w-3xl border border-transparent hover:border-neutral-300 focus-within:border-neutral-400 hover:focus-within:border-neutral-400 dark:hover:border-neutral-700 dark:focus-within:border-neutral-600 dark:hover:focus-within:border-neutral-600"
+        onSubmit={handleFormSubmit}
+      >
+        <input
+          type="text"
+          className="bg-transparent focus:outline-none p-4 w-full placeholder:text-neutral-600 dark:placeholder:text-neutral-400"
+          required
+          placeholder="Ask me anything"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          ref={inputRef}
+        />
 
-				{messages.length === 0 && (
-					<>
+        <button
+          type="submit"
+          className="p-4 text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white"
+          disabled={isPending}
+          aria-label="Submit"
+        >
+          {isPending ? <LoadingIcon /> : <EnterIcon />}
+        </button>
+      </form>
 
-						{vad.loading ? (
-							<p>Loading speech detection...</p>
-						) : vad.errored ? (
-							<p>Failed to load speech detection.</p>
-						) : (
-							<p>Start talking to chat.</p>
-						)}
-					</>
-				)}
-			</div>
+      <div className="text-neutral-400 dark:text-neutral-600 pt-4 text-center max-w-xl text-balance min-h-28 space-y-4">
+        {messages.length > 0 && (
+          <p>
+            {messages.at(-1)?.content}
+            <span className="text-xs font-mono text-neutral-300 dark:text-neutral-700">
+              {" "}
+              ({messages.at(-1)?.latency}ms)
+            </span>
+          </p>
+        )}
 
-			<div
-				className={clsx(
-					"absolute size-36 blur-3xl rounded-full bg-gradient-to-b from-red-200 to-red-400 dark:from-red-600 dark:to-red-800 -z-50 transition ease-in-out",
-					{
-						"opacity-0": vad.loading || vad.errored,
-						"opacity-30":
-							!vad.loading && !vad.errored && !vad.userSpeaking,
-						"opacity-100 scale-110": vad.userSpeaking,
-					}
-				)}
-			/>
-		</>
-	);
+        {messages.length === 0 && (
+          <>
+            {vad.loading ? (
+              <p>Loading speech detection...</p>
+            ) : vad.errored ? (
+              <p>Failed to load speech detection.</p>
+            ) : (
+              <p>Start talking to chat.</p>
+            )}
+          </>
+        )}
+      </div>
+
+      <div
+        className={clsx(
+          "absolute size-36 blur-3xl rounded-full bg-gradient-to-b from-red-200 to-red-400 dark:from-red-600 dark:to-red-800 -z-50 transition ease-in-out",
+          {
+            "opacity-0": vad.loading || vad.errored,
+            "opacity-30":
+              !vad.loading && !vad.errored && !vad.userSpeaking,
+            "opacity-100 scale-110": vad.userSpeaking,
+          }
+        )}
+      />
+    </>
+  );
 }
 
 function A(props: any) {
-	return (
-		<a
-			{...props}
-			className="text-neutral-500 dark:text-neutral-500 hover:underline font-medium"
-		/>
-	);
+  return (
+    <a
+      {...props}
+      className="text-neutral-500 dark:text-neutral-500 hover:underline font-medium"
+    />
+  );
 }
