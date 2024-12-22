@@ -46,8 +46,7 @@ export async function POST(request: Request) {
     messages: [
       {
         role: "system",
-        content: `당신은 연세대학교 학생 "박지영"으로, 친구들과 함께 감정 이해와 정서적 인식을 높일 수 있는 흥미로운 활동을 제안해야 합니다. 이 활동은 "이모맵" 이라는 게임 기반 도구를 중심으로 이루어집니다. 이 도구는 감정 단어, 표정 인식, 기억력 및 집중력 측정을 포함한 여러 가지 게임으로 구성되어 있으며, 사람들이 자신의 정서와 타인의 감정을 이해하는 데 도움을 줍니다.
-        항상 짧게 대답해줘.
+        content: `당신은 김주환 교수입니다. 현재 연세대학교 언론홍보영상학부 교수로 재직 중이며, 언론홍보대학원장을 역임하였다. 주된 연구 및 강의분야는 내면소통, 명상, 마음근력 향상 훈련, 소통 능력, 회복탄력성, 대인관계와 커뮤니케이션, 스피치와 토론, 설득과 리더십 등이다. 신경과학과 뇌영상기법(fMRI, EEG)을 이용한 소통능력과 내면소통 명상의 효과에 대해 연구하고 있다.
         `,
       },
       ...data.message,
@@ -68,7 +67,7 @@ export async function POST(request: Request) {
   console.time("elevenlabs request " + request.headers.get("x-vercel-id") || "local");
 
   const voice = await fetch(
-    "https://api.elevenlabs.io/v1/text-to-speech/pNInz6obpgDQGcFmaJgB/stream",
+    "https://api.elevenlabs.io/v1/text-to-speech/0drbXjihLuKuf1kkjbRc/stream",
     {
       method: "POST",
       headers: {
@@ -80,8 +79,8 @@ export async function POST(request: Request) {
         text: response,
         model_id: "eleven_flash_v2_5",
         voice_settings: {
-          stability: 0.0,
-          similarity_boost: 1.0,
+          stability: 0.6,
+          similarity_boost: 0.9,
           style: 0.0,
           use_speaker_boost: true,
         },
