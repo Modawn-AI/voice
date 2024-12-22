@@ -73,7 +73,7 @@ export async function POST(request: Request) {
   console.time("elevenlabs request " + request.headers.get("x-vercel-id") || "local");
 
   const voice = await fetch(
-    "https://api.elevenlabs.io/v1/text-to-speech/LcrFk3dgu1KKsbEODbN5/stream",
+    "https://api.elevenlabs.io/v1/text-to-speech/JVZxTPPTU5JLmze7RzXw/stream",
     {
       method: "POST",
       headers: {
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
         text: response,
         model_id: "eleven_flash_v2_5",
         voice_settings: {
-          stability: 0.7,
+          stability: 0.8,
           similarity_boost: 0.9,
           style: 0.0,
           use_speaker_boost: true,

@@ -159,7 +159,7 @@ export default function Home() {
           type="text"
           className="bg-transparent focus:outline-none p-4 w-full placeholder:text-neutral-600 dark:placeholder:text-neutral-400"
           required
-          placeholder="저는 김주환 교수 AI입니다. 편하게 상담해보세요."
+          placeholder="저는 김혜림 AI입니다. 편하게 상담해보세요."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           ref={inputRef}
