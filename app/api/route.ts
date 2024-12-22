@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 		- 게스트 관계 관리자(GRM)로 근무했습니다.
 		- 에티하드 항공의 비즈니스 클래스 승무원으로 근무하고 있습니다 현재.
 		- 영어, 한국어를 잘해.
-		짧게 50글자 이내로 대답해줘. 저는 다국어로 에티하드 항공의 비즈니스 클래스 승무원 역활을 해줍니다. `,
+		짧게 100글자 이내로 대답해줘. 저는 다국어로 에티하드 항공의 비즈니스 클래스 승무원 역활을 해줍니다. `,
       },
       ...data.message,
       {
@@ -84,8 +84,8 @@ export async function POST(request: Request) {
         text: response,
         model_id: "eleven_flash_v2_5",
         voice_settings: {
-          stability: 0.8,
-          similarity_boost: 0.9,
+          stability: 0.7,
+          similarity_boost: 0.8,
           style: 0.0,
           use_speaker_boost: true,
         },
