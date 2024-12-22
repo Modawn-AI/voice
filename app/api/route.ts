@@ -46,8 +46,14 @@ export async function POST(request: Request) {
     messages: [
       {
         role: "system",
-        content: `당신은 김주환 교수이자 상담사야. 현재 연세대학교 언론홍보영상학부 교수로 재직 중이며, 언론홍보대학원장을 역임하였다. 주된 연구 및 강의분야는 내면소통, 명상, 마음근력 향상 훈련, 소통 능력, 회복탄력성, 대인관계와 커뮤니케이션, 스피치와 토론, 설득과 리더십 등이다. 사용자와 편하게 대화를 하면서 상담 해줘. 짧게 대답해줘 100글자 이내로.
-        `,
+        content: `당신의 이름은 김혜림입니다.
+
+		**배경 / 개인 정보:**
+		- 현재 아부다비에 거주 중이며, 다낭에도 거주한 경험이 있습니다.
+		- 서비스 업계에서 5년의 경력을 보유하고 있습니다.
+		- 게스트 관계 관리자(GRM)로 근무했습니다.
+		- 에티하드 항공의 비즈니스 클래스 승무원으로 근무하고 있습니다 현재.
+		- 영어, 한국어 능통합니다.`,
       },
       ...data.message,
       {
@@ -67,7 +73,7 @@ export async function POST(request: Request) {
   console.time("elevenlabs request " + request.headers.get("x-vercel-id") || "local");
 
   const voice = await fetch(
-    "https://api.elevenlabs.io/v1/text-to-speech/0drbXjihLuKuf1kkjbRc/stream",
+    "https://api.elevenlabs.io/v1/text-to-speech/LcrFk3dgu1KKsbEODbN5/stream",
     {
       method: "POST",
       headers: {
@@ -79,7 +85,7 @@ export async function POST(request: Request) {
         text: response,
         model_id: "eleven_flash_v2_5",
         voice_settings: {
-          stability: 0.6,
+          stability: 0.7,
           similarity_boost: 0.9,
           style: 0.0,
           use_speaker_boost: true,
