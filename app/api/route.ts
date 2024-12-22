@@ -42,7 +42,7 @@ export async function POST(request: Request) {
   // 2) Call OpenAI to get chat completion
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
-    max_tokens: 150,
+    max_tokens: 100,
     messages: [
       {
         role: "system",
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
   // 3) Send the text to ElevenLabs TTS (streaming)
   console.time("elevenlabs request " + request.headers.get("x-vercel-id") || "local");
 
-  const voice = await fetch(
+  const voiceResponse = await fetch(
     "https://api.elevenlabs.io/v1/text-to-speech/0drbXjihLuKuf1kkjbRc/stream",
     {
       method: "POST",
@@ -88,25 +88,50 @@ export async function POST(request: Request) {
     }
   );
 
-  console.timeEnd("elevenlabs request " + request.headers.get("x-vercel-id") || "local");
+  console.timeEnd("elevenlabs request " + (request.headers.get("x-vercel-id") || "local"));
 
-  if (!voice.ok) {
-    console.error(await voice.text());
+  if (!voiceResponse.ok) {
+    console.error(await voiceResponse.text());
     return new Response("Voice synthesis failed", { status: 500 });
   }
 
+  if (!voiceResponse.body) {
+    console.error("No body in voiceResponse");
+    return new Response("No audio data received", { status: 500 });
+  }
+
   // 4) Stream the TTS result back to the browser
-  console.time("stream " + request.headers.get("x-vercel-id") || "local");
-  after(() => {
-    console.timeEnd("stream " + request.headers.get("x-vercel-id") || "local");
+  console.time("stream " + (request.headers.get("x-vercel-id") || "local"));
+
+  // Create a ReadableStream to pipe the audio data
+  const stream = new ReadableStream({
+    start(controller) {
+      const reader = voiceResponse.body!.getReader(); // Now safe due to the above check
+      const pump = () => {
+        reader.read().then(({ done, value }) => {
+          if (done) {
+            controller.close();
+            console.timeEnd("stream " + (request.headers.get("x-vercel-id") || "local"));
+            return;
+          }
+          controller.enqueue(value);
+          pump();
+        }).catch(error => {
+          console.error("Error in streaming voice response:", error);
+          controller.error(error);
+        });
+      };
+      pump();
+    }
   });
 
   // Include transcript and response in custom headers, just like before
-  return new Response(voice.body, {
+  return new Response(stream, {
     headers: {
       "X-Transcript": encodeURIComponent(transcript || ""),
       "X-Response": encodeURIComponent(response || ""),
       "Content-Type": "audio/mpeg", // MP3 stream
+      "Transfer-Encoding": "chunked", // Ensure chunked transfer for streaming
     },
   });
 }

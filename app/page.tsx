@@ -16,6 +16,10 @@ type Message = {
 export default function Home() {
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const mediaSourceRef = useRef<MediaSource | null>(null);
+  const sourceBufferRef = useRef<SourceBuffer | null>(null);
+  const queueRef = useRef<Uint8Array[]>([]);
   const [messages, submit, isPending] = useActionState<
     Array<Message>,
     string | Blob
@@ -60,24 +64,71 @@ export default function Home() {
 
     const latency = Date.now() - submittedAt;
 
-    // Handle MP3 Playback
+    // Handle MP3 Streaming with MediaSource
     try {
-      const audioBlob = await response.blob();
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
-      audio.play().catch((error) => {
-        console.error("Audio playback failed:", error);
-        toast.error("Audio playback failed.");
-      });
-
-      // Cleanup the object URL after playback
-      audio.addEventListener("ended", () => {
-        URL.revokeObjectURL(audioUrl);
-        const isFirefox = navigator.userAgent.includes("Firefox");
-        if (isFirefox) {
-          vad.start();
+      if (!mediaSourceRef.current) {
+        mediaSourceRef.current = new MediaSource();
+        if (audioRef.current) {
+          audioRef.current.src = URL.createObjectURL(mediaSourceRef.current);
+          mediaSourceRef.current.addEventListener('sourceopen', () => {
+            if (mediaSourceRef.current && mediaSourceRef.current.readyState === 'open') {
+              // Create a SourceBuffer for MP3
+              const mime = 'audio/mpeg';
+              if (MediaSource.isTypeSupported(mime)) {
+                sourceBufferRef.current = mediaSourceRef.current.addSourceBuffer(mime);
+                // Handle buffering
+                sourceBufferRef.current.mode = 'sequence';
+                // Process any queued data
+                while (queueRef.current.length > 0) {
+                  const chunk = queueRef.current.shift();
+                  if (chunk && sourceBufferRef.current && !sourceBufferRef.current.updating) {
+                    sourceBufferRef.current.appendBuffer(chunk);
+                  }
+                }
+              } else {
+                console.error("MIME type not supported:", mime);
+                toast.error("Unsupported audio format.");
+              }
+            }
+          });
         }
-      });
+      }
+
+      const reader = response.body.getReader();
+
+      const pump = async () => {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            if (mediaSourceRef.current && mediaSourceRef.current.readyState === 'open') {
+              mediaSourceRef.current.endOfStream();
+            }
+            break;
+          }
+          if (sourceBufferRef.current && !sourceBufferRef.current.updating) {
+            try {
+              sourceBufferRef.current.appendBuffer(value);
+            } catch (error) {
+              console.error("Error appending buffer:", error);
+              toast.error("Error playing audio.");
+            }
+          } else {
+            // Queue the data if SourceBuffer is busy
+            queueRef.current.push(value);
+          }
+        }
+      };
+
+      pump();
+
+      // Start playing as soon as possible
+      if (audioRef.current && mediaSourceRef.current.readyState === 'open') {
+        audioRef.current.play().catch((error) => {
+          console.error("Audio playback failed:", error);
+          toast.error("Audio playback failed.");
+        });
+      }
+
     } catch (error) {
       console.error("Failed to play audio:", error);
       toast.error("Failed to play audio.");
@@ -198,6 +249,9 @@ export default function Home() {
           </>
         )}
       </div>
+
+      {/* Audio Element for Streaming Playback */}
+      <audio ref={audioRef} controls />
 
       <div
         className={clsx(
