@@ -189,7 +189,7 @@ export default function Home() {
         {messages.length === 0 && (
           <>
             {vad.loading ? (
-              <p>고민중입니다...</p>
+              <p>고민중입니다!</p>
             ) : vad.errored ? (
               <p>Failed to load speech detection.</p>
             ) : (
