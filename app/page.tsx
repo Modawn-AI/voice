@@ -16,10 +16,17 @@ type Message = {
 export default function Home() {
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [messages, submit, isPending] = useActionState<
     Array<Message>,
     string | Blob
   >(async (prevMessages, data) => {
+    // Stop any currently playing audio when a new submission starts
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+
     const formData = new FormData();
 
     if (typeof data === "string") {
@@ -65,6 +72,8 @@ export default function Home() {
       const audioBlob = await response.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
+      audioRef.current = audio;
+      
       audio.play().catch((error) => {
         console.error("Audio playback failed:", error);
         toast.error("Audio playback failed.");
@@ -73,6 +82,7 @@ export default function Home() {
       // Cleanup the object URL after playback
       audio.addEventListener("ended", () => {
         URL.revokeObjectURL(audioUrl);
+        audioRef.current = null;
         const isFirefox = navigator.userAgent.includes("Firefox");
         if (isFirefox) {
           vad.start();
@@ -101,6 +111,13 @@ export default function Home() {
 
   const vad = useMicVAD({
     startOnLoad: true,
+    onSpeechStart: () => {
+      // Stop audio playback when the user starts speaking
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    },
     onSpeechEnd: (audio) => {
       // Since we're not using the custom player anymore, handle accordingly
       const wav = utils.encodeWAV(audio);
@@ -135,7 +152,14 @@ export default function Home() {
   useEffect(() => {
     function keyDown(e: KeyboardEvent) {
       if (e.key === "Enter") return inputRef.current?.focus();
-      if (e.key === "Escape") return setInput("");
+      if (e.key === "Escape") {
+        // Stop audio playback when Escape is pressed
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current = null;
+        }
+        return setInput("");
+      }
     }
 
     window.addEventListener("keydown", keyDown);
