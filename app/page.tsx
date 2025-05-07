@@ -159,7 +159,7 @@ export default function Home() {
           type="text"
           className="bg-transparent focus:outline-none p-4 w-full placeholder:text-neutral-600 dark:placeholder:text-neutral-400"
           required
-          placeholder="저는 이유리 AI입니다. 편하게 상담해보세요."
+          placeholder="Hey I am Joe Lim. I am a founder of 1Verse. Ask me anything!"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           ref={inputRef}
