@@ -118,12 +118,18 @@ Being part of Universe's journey is a source of immense pride and excitement for
     console.timeEnd("stream " + request.headers.get("x-vercel-id") || "local");
   });
 
-  // Include transcript and response in custom headers, just like before
+  // Include transcript and response in custom headers, with enhanced iOS compatibility
   return new Response(voice.body, {
     headers: {
       "X-Transcript": encodeURIComponent(transcript || ""),
       "X-Response": encodeURIComponent(response || ""),
       "Content-Type": "audio/mpeg", // MP3 stream
+      "Accept-Ranges": "bytes", // Important for iOS seeking
+      "Cache-Control": "no-cache", // Prevent caching issues on iOS
+      "Content-Disposition": "inline", // Force inline playback
+      "X-Content-Type-Options": "nosniff", // Prevent MIME type sniffing
+      "Access-Control-Allow-Origin": "*", // Allow cross-origin requests from any domain
+      "Access-Control-Expose-Headers": "X-Transcript, X-Response", // Expose custom headers
     },
   });
 }

@@ -15,6 +15,7 @@ type Message = {
 
 export default function Home() {
   const [input, setInput] = useState("");
+  const [isIOS, setIsIOS] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [messages, submit, isPending] = useActionState<
@@ -71,13 +72,58 @@ export default function Home() {
     try {
       const audioBlob = await response.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
+      
+      // Create audio element and set attributes that improve iOS compatibility
+      const audio = new Audio();
+      audio.preload = "auto";
+      (audio as any).playsInline = true;  // Type assertion for iOS-specific property
+      audio.src = audioUrl;
+      
+      // Store reference to the audio element
       audioRef.current = audio;
       
-      audio.play().catch((error) => {
-        console.error("Audio playback failed:", error);
-        toast.error("Audio playback failed.");
-      });
+      // Add special handling for iOS devices
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      
+      if (isIOS) {
+        // On iOS, wait for canplaythrough event before playing
+        audio.addEventListener('canplaythrough', function onCanPlay() {
+          const playPromise = audio.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              console.error("iOS audio playback failed:", error);
+              toast.error("Could not play audio on this iOS device.");
+            });
+          }
+          // Remove listener after first trigger
+          audio.removeEventListener('canplaythrough', onCanPlay);
+        });
+        
+        // Load the audio to trigger the canplaythrough event
+        audio.load();
+      } else {
+        // For non-iOS devices, use the original approach
+        await audio.load();
+        
+        // Play with user gesture context
+        const playPromise = audio.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.error("Audio playback failed:", error);
+            
+            // Error handling
+            if (error.name === "NotAllowedError") {
+              toast.error("Audio playback requires user interaction on this device.");
+            } else if (error.name === "NotSupportedError") {
+              toast.error("Audio format not supported on this device.");
+            } else {
+              toast.error("Audio playback failed.");
+            }
+          });
+        }
+      }
 
       // Cleanup the object URL after playback
       audio.addEventListener("ended", () => {
@@ -86,6 +132,24 @@ export default function Home() {
         const isFirefox = navigator.userAgent.includes("Firefox");
         if (isFirefox) {
           vad.start();
+        }
+      });
+      
+      // Add error listener for debugging
+      audio.addEventListener("error", (e) => {
+        console.error("Audio error:", e);
+        const errorCodes: Record<number, string> = {
+          1: "MEDIA_ERR_ABORTED",
+          2: "MEDIA_ERR_NETWORK",
+          3: "MEDIA_ERR_DECODE",
+          4: "MEDIA_ERR_SRC_NOT_SUPPORTED"
+        };
+        
+        const error = audio.error;
+        if (error) {
+          const errorMessage = error.code && errorCodes[error.code] ? errorCodes[error.code] : "Unknown";
+          console.error(`Audio error code: ${errorMessage}`);
+          toast.error(`Audio error: ${errorMessage}`);
         }
       });
     } catch (error) {
@@ -150,6 +214,11 @@ export default function Home() {
   });
 
   useEffect(() => {
+    // Check if user is on iOS device
+    const checkIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    setIsIOS(checkIOS);
+    
     function keyDown(e: KeyboardEvent) {
       if (e.key === "Enter") return inputRef.current?.focus();
       if (e.key === "Escape") {
@@ -169,6 +238,22 @@ export default function Home() {
   function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault();
     submit(input);
+  }
+
+  // Function to start conversation on iOS
+  function handleStartConversation() {
+    // This click helps initialize audio context on iOS
+    if (vad && typeof vad.start === 'function') {
+      vad.start();
+    }
+    
+    // Focus on the input field
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+    
+    toast.success("Ready to chat! Try speaking or typing a message.");
+    track("iOS conversation started");
   }
 
   return (
@@ -198,6 +283,15 @@ export default function Home() {
           {isPending ? <LoadingIcon /> : <EnterIcon />}
         </button>
       </form>
+
+      {isIOS && (
+        <button
+          onClick={handleStartConversation}
+          className="mt-4 px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-medium rounded-full transition-colors duration-200 max-w-xs mx-auto block"
+        >
+          Start Conversation
+        </button>
+      )}
 
       <div className="text-neutral-400 dark:text-neutral-600 pt-4 text-center max-w-xl text-balance min-h-28 space-y-4">
         {messages.length > 0 && (
