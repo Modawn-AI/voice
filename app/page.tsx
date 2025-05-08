@@ -242,6 +242,22 @@ export default function Home() {
 
   // Function to start conversation on iOS
   function handleStartConversation() {
+    // Initialize audio context with user gesture
+    try {
+      // Create and resume AudioContext to enable audio on iOS
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      const audioContext = new AudioContext();
+      if (audioContext.state === "suspended") {
+        audioContext.resume();
+      }
+      
+      // Play a silent audio to fully unlock audio on iOS
+      const silentAudio = new Audio("data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjM1LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADmADk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjU5AAAAAAAAAAAAAAAAJAM4AAAAAAAABJgZu2f7AAAAAAAAAAAAAAAAAAAAAP/7UEQAAANkAICwQoAAicMBpEQABEYYDyIgACJwwHkRAAEwQpkQZqaDEj36hv+MHYfnB9/8YO/5g7/oGD//5gfTAqD/+oMKg///UGt///qvqMB10GNQY1BkYGPgVl58CsPAwMDAwsDAQMDAwMDA4MAgICw3o8EAABgYGB3R4IAAAMDAgdvggAAAw7o8CAAAAw7o8KAgAABh3R4CAAQOCB2+CAQABAcEDt8EAgAA7fBAAIAAgYiI37hBAQ");
+      silentAudio.play().catch(e => console.log("Silent audio play error:", e));
+    } catch (e) {
+      console.error("Audio context initialization failed:", e);
+    }
+    
     // This click helps initialize audio context on iOS
     if (vad && typeof vad.start === 'function') {
       vad.start();
@@ -284,14 +300,13 @@ export default function Home() {
         </button>
       </form>
 
-      {isIOS && (
-        <button
-          onClick={handleStartConversation}
-          className="mt-4 px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-medium rounded-full transition-colors duration-200 max-w-xs mx-auto block"
-        >
-          Start Conversation
-        </button>
-      )}
+      {/* Show button to all users to help initialize audio context */}
+      <button
+        onClick={handleStartConversation}
+        className="mt-4 px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-medium rounded-full transition-colors duration-200 max-w-xs mx-auto block"
+      >
+        Enable Voice Chat
+      </button>
 
       <div className="text-neutral-400 dark:text-neutral-600 pt-4 text-center max-w-xl text-balance min-h-28 space-y-4">
         {messages.length > 0 && (
